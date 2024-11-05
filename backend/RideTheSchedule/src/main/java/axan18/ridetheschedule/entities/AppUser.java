@@ -1,9 +1,6 @@
 package axan18.ridetheschedule.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -48,7 +45,7 @@ public class AppUser {
     @NotNull
     @NotBlank
     @Size(max = 255)
-    @Column(length = 255, columnDefinition = "varchar(255)", nullable = false)
+    @Column(columnDefinition = "varchar(255)", nullable = false, unique = true)
     private String email;
 
     @CreationTimestamp
@@ -61,5 +58,5 @@ public class AppUser {
     private Date lastLoginDate;
 
     @NotNull
-    private boolean isActive;
+    private Boolean isActive;
 }
