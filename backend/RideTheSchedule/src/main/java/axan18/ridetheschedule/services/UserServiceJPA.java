@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -24,11 +25,11 @@ public class UserServiceJPA implements UserServices {
     }
 
     @Override
-    public Optional<Page<AppUserDTO>> getUserByNameLike(String expression, int page, int size) {
-        Page<AppUser> users = userRepository.findAllByUsernameIsLikeIgnoreCase(expression, PageRequest.of(page, size));
+    public Page<AppUserDTO> getUserByNameLike(String expression, PageRequest pageRequest) {
+        Page<AppUser> users = userRepository.findAllByUsernameIsLikeIgnoreCase("%"+expression+"%", pageRequest);
         if(users.isEmpty()) {
-            return Optional.empty();
+            return Page.empty();
         }
-        return Optional.of(users.map(userMapper::toAppUserDTO));
+        return users.map(userMapper::toAppUserDTO);
     }
 }

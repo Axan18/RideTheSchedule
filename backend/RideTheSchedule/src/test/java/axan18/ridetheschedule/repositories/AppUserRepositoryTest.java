@@ -2,6 +2,7 @@ package axan18.ridetheschedule.repositories;
 
 import axan18.ridetheschedule.entities.AppUser;
 import jakarta.validation.ConstraintViolationException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -9,6 +10,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 
 import java.sql.Date;
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -19,27 +22,32 @@ public class AppUserRepositoryTest {
 
     @Autowired
     UserRepository userRepository;
+    AppUser appUser;
 
-    @Test
-    void testSaveUser()
-    {
-        AppUser appUser = userRepository.save(AppUser.builder()
-                .username("test")
+    @BeforeEach
+    void setUp() {
+        appUser = userRepository.save(AppUser.builder()
+                .username("User1")
                 .password("test")
-                .email("testmail@xyz.com")
+                .email("test@example.xyz")
                 .lastLoginDate(Date.valueOf("2021-01-01"))
                 .isActive(true)
                 .build());
+    }
+    @Test
+    void testSaveUser()
+    {
+        AppUser appUser1 = userRepository.save(appUser);
         userRepository.flush();
-        assertThat(appUser).isNotNull();
-        assertThat(appUser.getId()).isNotNull();
+        assertThat(appUser1).isNotNull();
+        assertThat(appUser1.getId()).isNotNull();
     }
 
     @Test
     void testSaveUserWithNull()
     {
         assertThrows(ConstraintViolationException.class, () -> {
-            AppUser appUser = userRepository.save(AppUser.builder()
+            userRepository.save(AppUser.builder()
                     .username(null)
                     .password(null)
                     .email(null)
@@ -54,29 +62,18 @@ public class AppUserRepositoryTest {
     @Test
     void testOverSizeUsername() {
         assertThrows(ConstraintViolationException.class, () -> {
-            AppUser appUser = userRepository.save(AppUser.builder()
-                    .username("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent pellentesque, mauris ut lacinia cursus, lectus mauris malesuada ante, nec efficitur urna arcu vitae eros. Aenean lacinia diam lacus, in sagittis ex aliquam et. Proin eu hendrerit lectus, ac sodales orci. Cras mollis porta arcu, ac tincidunt nibh bibendum id.")
-                    .password("test")
-                    .email("dfds    @xyz.com")
-                    .lastLoginDate(Date.valueOf("2021-01-01"))
-                    .isActive(true)
-                    .build());
+            appUser.setUsername("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent pellentesque, mauris ut lacinia cursus");
+            userRepository.save(appUser);
             userRepository.flush();
         });
     }
     @Test
     void testFindAllByUsernameIsLike() {
-        AppUser appUser = userRepository.save(AppUser.builder()
-                .username("User1")
-                .password("test")
-                .email("test")
-                .lastLoginDate(Date.valueOf("2021-01-01"))
-                .isActive(true)
-                .build());
-        AppUser appUser2 = userRepository.save(AppUser.builder()
+        userRepository.save(appUser);
+        userRepository.save(AppUser.builder()
                 .username("User2")
                 .password("test")
-                .email("test2")
+                .email("example")
                 .lastLoginDate(Date.valueOf("2021-01-01"))
                 .isActive(true)
                 .build());
@@ -86,17 +83,11 @@ public class AppUserRepositoryTest {
     @Test
     void testEmailUnique() {
         assertThrows(DataIntegrityViolationException.class, () -> {
-            AppUser appUser = userRepository.save(AppUser.builder()
-                    .username("User1")
-                    .password("test")
-                    .email("test")
-                    .lastLoginDate(Date.valueOf("2021-01-01"))
-                    .isActive(true)
-                    .build());
-            AppUser appUser2 = userRepository.save(AppUser.builder()
+            userRepository.save(appUser);
+            userRepository.save(AppUser.builder()
                     .username("User2")
                     .password("test")
-                    .email("test")
+                    .email("test@example.xyz") // duplicate email
                     .lastLoginDate(Date.valueOf("2021-01-01"))
                     .isActive(true)
                     .build());
@@ -106,14 +97,28 @@ public class AppUserRepositoryTest {
     @Test
     void testEmailNull() {
         assertThrows(ConstraintViolationException.class, () -> {
-            AppUser appUser = userRepository.save(AppUser.builder()
-                    .username("User1")
-                    .password("test")
-                    .email(null)
-                    .lastLoginDate(Date.valueOf("2021-01-01"))
-                    .isActive(true)
-                    .build());
+            appUser.setEmail(null);
+            userRepository.save(appUser);
             userRepository.flush();
         });
+    }
+    @Test
+    void testFindUserById() {
+        AppUser savedUser = userRepository.save(appUser);
+        Optional<AppUser> appUser1 = userRepository.findById(savedUser.getId());
+        assertThat(appUser1).isPresent();
+        assertThat(appUser1.get().getId()).isEqualTo(savedUser.getId());
+    }
+    @Test
+    void testFindUserByIdNotFound() {
+        Optional<AppUser> appUser1 = userRepository.findById(UUID.randomUUID());
+        assertThat(appUser1).isEmpty();
+    }
+    @Test
+    void testDeleteUser() {
+        AppUser savedUser = userRepository.save(appUser);
+        userRepository.delete(savedUser);
+        userRepository.flush();
+        assertThat(userRepository.findById(savedUser.getId())).isEmpty();
     }
 }
