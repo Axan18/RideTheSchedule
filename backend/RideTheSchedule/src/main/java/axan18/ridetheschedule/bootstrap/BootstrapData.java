@@ -35,8 +35,8 @@ public class BootstrapData implements CommandLineRunner {
                     .username("user" + i)
                     .password("password" + i)
                     .email("user" + i + "@example.com")
-                    .createdDate(Timestamp.valueOf(LocalDateTime.now().minusDays(i * 2)))
-                    .lastModifiedDate(Timestamp.valueOf(LocalDateTime.now().minusDays(i)))
+                    .createdAt(Timestamp.valueOf(LocalDateTime.now().minusDays(i * 2)))
+                    .lastModified(Timestamp.valueOf(LocalDateTime.now().minusDays(i)))
                     .lastLoginDate(Date.valueOf(LocalDate.now().minusDays(i)))
                     .isActive(i % 2 == 0)
                     .build();

@@ -14,6 +14,8 @@ import jakarta.validation.constraints.NotNull;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -24,7 +26,6 @@ import java.util.UUID;
 @Builder
 public class AppUser {
     @Id
-    @GeneratedValue(generator = "UUID")
     @UuidGenerator
     @JdbcTypeCode(SqlTypes.CHAR)
     @Column(length = 36, columnDefinition = "CHAR(36)", updatable = false, nullable = false )
@@ -49,14 +50,18 @@ public class AppUser {
     private String email;
 
     @CreationTimestamp
-    private Timestamp createdDate;
+    private Timestamp createdAt;
 
     @UpdateTimestamp
-    private Timestamp lastModifiedDate;
+    private Timestamp lastModified;
 
     @NotNull
     private Date lastLoginDate;
 
     @NotNull
     private Boolean isActive;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "appUser")
+    private Set<Schedule> schedules = new HashSet<>();
 }
