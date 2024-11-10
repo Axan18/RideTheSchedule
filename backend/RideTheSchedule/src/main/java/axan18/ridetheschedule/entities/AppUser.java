@@ -64,4 +64,19 @@ public class AppUser {
     @Builder.Default
     @OneToMany(mappedBy = "appUser")
     private Set<Schedule> schedules = new HashSet<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "scheduleOwner")
+    private Set<SharedSchedule> sharedSchedulesOwned = new HashSet<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "sharedWith")
+    private Set<SharedSchedule> sharedSchedulesWith = new HashSet<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "author")
+    private Set<ScheduleTaskComment> comments = new HashSet<>();
+
+
+
 }
