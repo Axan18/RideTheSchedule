@@ -66,7 +66,7 @@ public class ScheduleTask {
     @NotNull
     private LocalDateTime endTime;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE})
     private Schedule schedule;
 
     @OneToOne
@@ -81,7 +81,7 @@ public class ScheduleTask {
     private Set<Tag> tags = new HashSet<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "scheduleTask")
+    @OneToMany(mappedBy = "scheduleTask", cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE})
     private Set<ScheduleTaskComment> comments = new HashSet<>();
 
     public void setSchedule(Schedule schedule) {

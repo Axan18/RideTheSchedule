@@ -64,7 +64,7 @@ public class AppUser {
     private Boolean isActive;
 
     @Builder.Default
-    @OneToMany(mappedBy = "appUser")
+    @OneToMany(mappedBy = "appUser", cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Schedule> schedules = new HashSet<>();
 
     @Builder.Default

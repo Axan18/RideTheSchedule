@@ -52,11 +52,11 @@ public class Schedule {
     private AppUser appUser;
 
     @Builder.Default
-    @OneToMany(mappedBy = "schedule")
+    @OneToMany(mappedBy = "schedule", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
     private Set<SharedSchedule> sharedSchedules = new HashSet<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "schedule")
+    @OneToMany(mappedBy = "schedule", cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE})
     private Set<ScheduleTask> scheduleTasks = new HashSet<>();
 
     public void setAppUser(AppUser appUser) {
@@ -70,6 +70,6 @@ public class Schedule {
     }
 
     @Builder.Default
-    @OneToMany(mappedBy = "schedule")
+    @OneToMany(mappedBy = "schedule", cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE})
     private Set<TodoTask> todoTasks = new HashSet<>();
 }
