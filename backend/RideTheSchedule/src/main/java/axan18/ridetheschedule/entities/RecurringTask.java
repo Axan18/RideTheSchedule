@@ -20,9 +20,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Builder
-public class ReccuringTask {
+public class RecurringTask {
 
-    public ReccuringTask(UUID id, Frequency frequency, ScheduleTask scheduleTask, Date startDate, Date endDate) {
+    public RecurringTask(UUID id, Frequency frequency, ScheduleTask scheduleTask, Date startDate, Date endDate) {
         this.id = id;
         this.frequency = frequency;
         this.scheduleTask = scheduleTask;

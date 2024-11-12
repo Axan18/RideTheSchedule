@@ -1,7 +1,6 @@
 package axan18.ridetheschedule.models;
 
-import axan18.ridetheschedule.entities.ReccuringTask;
-import jakarta.persistence.Id;
+import axan18.ridetheschedule.entities.RecurringTask;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -12,11 +11,11 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReccuringTaskDTO {
+public class RecurringTaskDTO {
     @NotNull
     private UUID id;
     @NotNull
-    private ReccuringTask.Frequency frequency;
+    private RecurringTask.Frequency frequency;
     @NotNull
     private Date startDate;
     @NotNull

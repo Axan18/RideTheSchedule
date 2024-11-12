@@ -14,6 +14,7 @@ import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -24,14 +25,16 @@ import java.util.UUID;
 @Entity
 @Builder
 public class ScheduleTask {
-        public ScheduleTask(UUID id, String name, String description, Timestamp createdAt, Timestamp lastModified, Schedule schedule, ReccuringTask reccuringTask, Set<Tag> tags, Set<ScheduleTaskComment> comments) {
+        public ScheduleTask(UUID id, String name, String description, Timestamp createdAt, Timestamp lastModified, LocalDateTime startTime, LocalDateTime endTime, Schedule schedule, RecurringTask recurringTask, Set<Tag> tags, Set<ScheduleTaskComment> comments) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.createdAt = createdAt;
         this.lastModified = lastModified;
         this.setSchedule(schedule);
-        this.reccuringTask = reccuringTask;
+        this.recurringTask = recurringTask;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.tags = tags;
         this.comments = comments;
 
@@ -57,11 +60,17 @@ public class ScheduleTask {
     @UpdateTimestamp
     private Timestamp lastModified;
 
+    @NotNull
+    private LocalDateTime startTime;
+
+    @NotNull
+    private LocalDateTime endTime;
+
     @ManyToOne
     private Schedule schedule;
 
     @OneToOne
-    private ReccuringTask reccuringTask;
+    private RecurringTask recurringTask;
 
     @ManyToMany
     @JoinTable(
@@ -84,5 +93,4 @@ public class ScheduleTask {
             schedule.getScheduleTasks().add(this);
         }
     }
-
 }

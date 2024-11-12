@@ -21,7 +21,7 @@ import java.util.UUID;
 @Builder
 public class Schedule {
 
-    public Schedule(UUID id, Date date, Date createdDate, Timestamp lastModified, AppUser appUser, Set<SharedSchedule> sharedSchedules, Set<ScheduleTask> scheduleTasks) {
+    public Schedule(UUID id, Date date, Date createdDate, Timestamp lastModified, AppUser appUser, Set<SharedSchedule> sharedSchedules, Set<ScheduleTask> scheduleTasks, Set<TodoTask> todoTasks) {
         this.id = id;
         this.date = date;
         this.createdDate = createdDate;
@@ -29,6 +29,7 @@ public class Schedule {
         this.setAppUser(appUser);
         this.sharedSchedules = sharedSchedules;
         this.scheduleTasks = scheduleTasks;
+        this.todoTasks = todoTasks;
     }
 
     @Id
@@ -67,4 +68,8 @@ public class Schedule {
             appUser.getSchedules().add(this);
         }
     }
+
+    @Builder.Default
+    @OneToMany(mappedBy = "schedule")
+    private Set<TodoTask> todoTasks = new HashSet<>();
 }
