@@ -1,12 +1,12 @@
 package axan18.ridetheschedule.models;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -14,10 +14,14 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ScheduleDTO {
+public class ScheduleTaskDTO {
     private UUID id;
-    private Date date;
-    private Date createdDate;
+    @NotNull
+    @NotBlank
+    private String name;
+    @NotBlank
+    private String description;
+    private LocalDateTime createdAt;
     private LocalDateTime lastModified;
 
 }

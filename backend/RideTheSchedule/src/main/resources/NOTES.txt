@@ -1,0 +1,2 @@
+zapisywanie obiektów typów złożonych w bazie danych (json?, @Converter?)
+walidacja w DTO

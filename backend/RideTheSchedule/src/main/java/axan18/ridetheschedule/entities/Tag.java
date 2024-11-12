@@ -20,8 +20,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Builder
-public class Tags {
-    public Tags(UUID id, String name, String color, Set<Schedule> schedules) {
+public class Tag {
+    public Tag(UUID id, String name, String color, Set<Schedule> schedules) {
         this.id = id;
         this.name = name;
         this.color = color;

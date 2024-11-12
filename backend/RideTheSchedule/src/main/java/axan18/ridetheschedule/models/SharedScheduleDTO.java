@@ -5,19 +5,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Builder
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ScheduleDTO {
-    private UUID id;
-    private Date date;
-    private Date createdDate;
-    private LocalDateTime lastModified;
+public class SharedScheduleDTO {
 
+    private UUID id;
+    private UUID scheduleId;
+    private UUID ownerId;
+    private UUID sharedWithId;
 }

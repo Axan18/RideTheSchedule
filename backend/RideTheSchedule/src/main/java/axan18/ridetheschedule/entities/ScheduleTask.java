@@ -24,13 +24,17 @@ import java.util.UUID;
 @Entity
 @Builder
 public class ScheduleTask {
-    public ScheduleTask(UUID id, String name, String description, Timestamp createdAt, Timestamp lastModified, Schedule schedule) {
+        public ScheduleTask(UUID id, String name, String description, Timestamp createdAt, Timestamp lastModified, Schedule schedule, ReccuringTask reccuringTask, Set<Tag> tags, Set<ScheduleTaskComment> comments) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.createdAt = createdAt;
         this.lastModified = lastModified;
         this.setSchedule(schedule);
+        this.reccuringTask = reccuringTask;
+        this.tags = tags;
+        this.comments = comments;
+
     }
     @Id
     @UuidGenerator
@@ -43,7 +47,7 @@ public class ScheduleTask {
     @Column(length = 50)
     private String name;
 
-    @NotNull
+    @NotBlank
     @Column(length = 255)
     private String description;
 
@@ -65,7 +69,7 @@ public class ScheduleTask {
             joinColumns = @JoinColumn(name = "schedule_task_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
-    private Set<Tags> tags = new HashSet<>();
+    private Set<Tag> tags = new HashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "scheduleTask")

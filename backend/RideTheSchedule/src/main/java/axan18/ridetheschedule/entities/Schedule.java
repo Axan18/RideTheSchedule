@@ -21,13 +21,14 @@ import java.util.UUID;
 @Builder
 public class Schedule {
 
-    public Schedule(UUID id, Date date, Date createdDate, Timestamp lastModified, AppUser appUser, Set<SharedSchedule> sharedSchedules) {
+    public Schedule(UUID id, Date date, Date createdDate, Timestamp lastModified, AppUser appUser, Set<SharedSchedule> sharedSchedules, Set<ScheduleTask> scheduleTasks) {
         this.id = id;
         this.date = date;
         this.createdDate = createdDate;
         this.lastModified = lastModified;
         this.setAppUser(appUser);
         this.sharedSchedules = sharedSchedules;
+        this.scheduleTasks = scheduleTasks;
     }
 
     @Id
