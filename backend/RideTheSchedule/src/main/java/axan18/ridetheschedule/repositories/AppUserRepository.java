@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.UUID;
 
 
-public interface UserRepository extends JpaRepository<AppUser, UUID> {
+public interface AppUserRepository extends JpaRepository<AppUser, UUID> {
     Page<AppUser> findAllByUsernameIsLikeIgnoreCase(String firstName, Pageable pageable);
 }

@@ -1,5 +1,6 @@
 package axan18.ridetheschedule.entities;
 
+import jakarta.persistence.Converter;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;

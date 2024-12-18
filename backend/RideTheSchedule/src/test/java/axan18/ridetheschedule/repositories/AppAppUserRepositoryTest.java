@@ -18,15 +18,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJpaTest
 //@Import(BootstrapUserData.class)
-public class AppUserRepositoryTest {
+public class AppAppUserRepositoryTest {
 
     @Autowired
-    UserRepository userRepository;
+    AppUserRepository appUserRepository;
     AppUser appUser;
 
     @BeforeEach
     void setUp() {
-        appUser = userRepository.save(AppUser.builder()
+        appUser = appUserRepository.save(AppUser.builder()
                 .username("User1")
                 .password("test")
                 .email("test@example.xyz")
@@ -37,8 +37,8 @@ public class AppUserRepositoryTest {
     @Test
     void testSaveUser()
     {
-        AppUser appUser1 = userRepository.save(appUser);
-        userRepository.flush();
+        AppUser appUser1 = appUserRepository.save(appUser);
+        appUserRepository.flush();
         assertThat(appUser1).isNotNull();
         assertThat(appUser1.getId()).isNotNull();
     }
@@ -47,7 +47,7 @@ public class AppUserRepositoryTest {
     void testSaveUserWithNull()
     {
         assertThrows(ConstraintViolationException.class, () -> {
-            userRepository.save(AppUser.builder()
+            appUserRepository.save(AppUser.builder()
                     .username(null)
                     .password(null)
                     .email(null)
@@ -55,7 +55,7 @@ public class AppUserRepositoryTest {
                     .isActive(false)
                     .build());
 
-            userRepository.flush();
+            appUserRepository.flush();
         });
     }
 
@@ -63,62 +63,62 @@ public class AppUserRepositoryTest {
     void testOverSizeUsername() {
         assertThrows(ConstraintViolationException.class, () -> {
             appUser.setUsername("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent pellentesque, mauris ut lacinia cursus");
-            userRepository.save(appUser);
-            userRepository.flush();
+            appUserRepository.save(appUser);
+            appUserRepository.flush();
         });
     }
     @Test
     void testFindAllByUsernameIsLike() {
-        userRepository.save(appUser);
-        userRepository.save(AppUser.builder()
+        appUserRepository.save(appUser);
+        appUserRepository.save(AppUser.builder()
                 .username("User2")
                 .password("test")
                 .email("example")
                 .lastLoginDate(Date.valueOf("2021-01-01"))
                 .isActive(true)
                 .build());
-        Page<AppUser> appUserPage = userRepository.findAllByUsernameIsLikeIgnoreCase("User%", null);
+        Page<AppUser> appUserPage = appUserRepository.findAllByUsernameIsLikeIgnoreCase("User%", null);
         assertThat(appUserPage.getContent().size()).isEqualTo(2);
     }
     @Test
     void testEmailUnique() {
         assertThrows(DataIntegrityViolationException.class, () -> {
-            userRepository.save(appUser);
-            userRepository.save(AppUser.builder()
+            appUserRepository.save(appUser);
+            appUserRepository.save(AppUser.builder()
                     .username("User2")
                     .password("test")
                     .email("test@example.xyz") // duplicate email
                     .lastLoginDate(Date.valueOf("2021-01-01"))
                     .isActive(true)
                     .build());
-            userRepository.flush();
+            appUserRepository.flush();
         });
     }
     @Test
     void testEmailNull() {
         assertThrows(ConstraintViolationException.class, () -> {
             appUser.setEmail(null);
-            userRepository.save(appUser);
-            userRepository.flush();
+            appUserRepository.save(appUser);
+            appUserRepository.flush();
         });
     }
     @Test
     void testFindUserById() {
-        AppUser savedUser = userRepository.save(appUser);
-        Optional<AppUser> appUser1 = userRepository.findById(savedUser.getId());
+        AppUser savedUser = appUserRepository.save(appUser);
+        Optional<AppUser> appUser1 = appUserRepository.findById(savedUser.getId());
         assertThat(appUser1).isPresent();
         assertThat(appUser1.get().getId()).isEqualTo(savedUser.getId());
     }
     @Test
     void testFindUserByIdNotFound() {
-        Optional<AppUser> appUser1 = userRepository.findById(UUID.randomUUID());
+        Optional<AppUser> appUser1 = appUserRepository.findById(UUID.randomUUID());
         assertThat(appUser1).isEmpty();
     }
     @Test
     void testDeleteUser() {
-        AppUser savedUser = userRepository.save(appUser);
-        userRepository.delete(savedUser);
-        userRepository.flush();
-        assertThat(userRepository.findById(savedUser.getId())).isEmpty();
+        AppUser savedUser = appUserRepository.save(appUser);
+        appUserRepository.delete(savedUser);
+        appUserRepository.flush();
+        assertThat(appUserRepository.findById(savedUser.getId())).isEmpty();
     }
 }

@@ -1,9 +1,10 @@
 package axan18.ridetheschedule.bootstrap;
 
 import axan18.ridetheschedule.entities.AppUser;
-import axan18.ridetheschedule.repositories.UserRepository;
+import axan18.ridetheschedule.repositories.AppUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,8 +18,9 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class BootstrapData implements CommandLineRunner {
-    private final UserRepository userRepository;
+@Order(1)
+public class BootstrapUserData implements CommandLineRunner {
+    private final AppUserRepository appUserRepository;
 
     @Transactional
     @Override
@@ -43,7 +45,7 @@ public class BootstrapData implements CommandLineRunner {
 
             userList.add(user);
         }
-        userRepository.saveAll(userList);
+        appUserRepository.saveAll(userList);
         System.out.println("Users loaded: " + userList.size());
     }
 

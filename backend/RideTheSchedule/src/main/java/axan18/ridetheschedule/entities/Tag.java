@@ -21,11 +21,11 @@ import java.util.UUID;
 @Entity
 @Builder
 public class Tag {
-    public Tag(UUID id, String name, String color, Set<Schedule> schedules) {
+    public Tag(UUID id, String name, String color, Set<ScheduleTask> scheduleTasks) {
         this.id = id;
         this.name = name;
         this.color = color;
-        this.schedules = schedules;
+        this.scheduleTasks = scheduleTasks;
     }
     @Id
     @UuidGenerator
@@ -43,5 +43,5 @@ public class Tag {
 
     @Builder.Default
     @ManyToMany(mappedBy = "tags")
-    private Set<Schedule> schedules = new HashSet<>();
+    private Set<ScheduleTask> scheduleTasks = new HashSet<>();
 }
