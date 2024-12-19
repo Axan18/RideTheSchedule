@@ -1,1 +1,3 @@
 zapisywanie obiektów typów złożonych w bazie danych (json?, @Converter?)
+
+problem N+1 zapytań do rozwiązania kiedyś

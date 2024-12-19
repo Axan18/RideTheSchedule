@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJpaTest
 //@Import(BootstrapUserData.class)
-public class AppAppUserRepositoryTest {
+public class AppUserRepositoryTest {
 
     @Autowired
     AppUserRepository appUserRepository;

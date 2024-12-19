@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AppUserServiceJPA implements AppUserServices {
+public class AppUserServiceJPA implements AppUserService {
 
     private final AppUserRepository appUserRepository;
     private final AppUserMapper appUserMapper;

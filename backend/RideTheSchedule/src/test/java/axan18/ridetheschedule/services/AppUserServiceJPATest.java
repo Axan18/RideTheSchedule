@@ -1,4 +1,5 @@
 package axan18.ridetheschedule.services;
+
 import axan18.ridetheschedule.entities.AppUser;
 import axan18.ridetheschedule.mappers.AppUserMapper;
 import axan18.ridetheschedule.models.AppUserDTO;
@@ -11,10 +12,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-
 import java.sql.Date;
 import java.util.Collections;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
