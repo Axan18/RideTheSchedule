@@ -9,14 +9,21 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.Optional;
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 class AppUserServiceJPATest {
 
@@ -26,7 +33,7 @@ class AppUserServiceJPATest {
     private AppUserMapper appUserMapper;
 
     @InjectMocks
-    AppUserServiceJPA userServiceJPA;
+    AppUserServiceJPA appUserServiceJPA;
 
     AppUser appUser;
     PageRequest pageRequest;
@@ -58,7 +65,7 @@ class AppUserServiceJPATest {
         AppUserDTO mockUserDTO = new AppUserDTO();
         when(appUserMapper.toAppUserDTO(mockUser)).thenReturn(mockUserDTO);
 
-        Page<AppUserDTO> result = userServiceJPA.listUsers(page, size);
+        Page<AppUserDTO> result = appUserServiceJPA.listUsers(page, size);
 
         assertEquals(1, result.getTotalElements(), "The result should contain one user");
         assertEquals(mockUserDTO, result.getContent().get(0), "The user should be the same as the mock user");
@@ -73,7 +80,7 @@ class AppUserServiceJPATest {
         when(appUserRepository.findAllByUsernameIsLikeIgnoreCase("%" + name + "%", pageRequest))
                 .thenReturn(mockPage);
 
-        Page<AppUserDTO> result = userServiceJPA.getUserByNameLike(name, pageRequest);
+        Page<AppUserDTO> result = appUserServiceJPA.getUserByNameLike(name, pageRequest);
 
         assertEquals(0, result.getTotalElements(), "The result should be empty");
 
@@ -89,12 +96,64 @@ class AppUserServiceJPATest {
         AppUserDTO mockUserDTO = new AppUserDTO();
         when(appUserMapper.toAppUserDTO(mockUser)).thenReturn(mockUserDTO);
 
-        Page<AppUserDTO> result = userServiceJPA.getUserByNameLike(name, pageRequest);
+        Page<AppUserDTO> result = appUserServiceJPA.getUserByNameLike(name, pageRequest);
 
         assertEquals(1, result.getTotalElements(), "The result should contain one user");
         assertEquals(mockUserDTO, result.getContent().get(0), "The user should be the same as the mock user");
 
         verify(appUserRepository).findAllByUsernameIsLikeIgnoreCase("%" + name + "%", pageRequest);
         verify(appUserMapper).toAppUserDTO(mockUser);
+    }
+    @Test
+    void testCreateUser()
+    {
+        String name ="user";
+        String psswd = "psswd";
+        String email = "mail@google.com";
+        AppUser user = AppUser.builder()
+                .username(name)
+                .password(psswd)
+                .email(email)
+                .lastLoginDate(Date.valueOf(LocalDate.now()))
+                .isActive(true)
+                .createdAt(Timestamp.valueOf(LocalDateTime.now()))
+                .lastModified(Timestamp.valueOf(LocalDateTime.now()))
+                .build();
+
+        AppUserDTO userDTO = AppUserDTO.builder()
+                .username(name)
+                .password(psswd)
+                .email(email)
+                .build();
+        when(appUserRepository.findByEmail(email)).thenReturn(Optional.empty());
+        when(appUserRepository.save(any(AppUser.class))).thenReturn(user);
+        when(appUserMapper.toAppUserDTO(user)).thenReturn(userDTO);
+
+        Optional<AppUserDTO> createdUser = appUserServiceJPA.createUser(name,psswd,email);
+        assertTrue(createdUser.isPresent());
+        assertEquals(userDTO,createdUser.get());
+        verify(appUserRepository).save(any(AppUser.class));
+    }
+    @Test
+    void testDeleteUser()
+    {
+        AppUser user = appUser;
+        user.setId(UUID.randomUUID());
+        when(appUserRepository.save(user)).thenReturn(user);
+        doNothing().when(appUserRepository).deleteById(user.getId());
+        Boolean result = appUserServiceJPA.deleteUser(user.getId());
+        assertTrue(result);
+        verify(appUserRepository).deleteById(user.getId());
+    }
+    @Test
+    void testUpdateLastLoginDate()
+    {
+        AppUser user = appUser;
+        UUID id = UUID.randomUUID();
+        user.setId(id);
+        LocalDate now = LocalDate.now();
+        doNothing().when(appUserRepository).updateLastLogin(user.getId(), Date.valueOf(now));
+        appUserServiceJPA.updateLastLogin(id);
+        verify(appUserRepository).updateLastLogin(id,Date.valueOf(now));
     }
 }

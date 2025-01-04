@@ -10,6 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -115,10 +116,12 @@ public class AppUserRepositoryTest {
         assertThat(appUser1).isEmpty();
     }
     @Test
-    void testDeleteUser() {
+    void testUpdateLastLogin()
+    {
         AppUser savedUser = appUserRepository.save(appUser);
-        appUserRepository.delete(savedUser);
-        appUserRepository.flush();
-        assertThat(appUserRepository.findById(savedUser.getId())).isEmpty();
+        appUserRepository.updateLastLogin(savedUser.getId(), Date.valueOf(LocalDate.now()));
+        Optional<AppUser> updatedUser = appUserRepository.findById(savedUser.getId());
+        assertThat(updatedUser).isPresent();
+        assertThat(savedUser.getLastLoginDate()).isNotEqualTo(updatedUser.get().getLastLoginDate());
     }
 }
