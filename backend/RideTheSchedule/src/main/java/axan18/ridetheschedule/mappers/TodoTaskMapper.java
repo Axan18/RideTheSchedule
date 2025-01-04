@@ -6,6 +6,6 @@ import org.mapstruct.Mapper;
 
 @Mapper
 public interface TodoTaskMapper {
-    TodoTask toTodoTask(TodoTask todoTask);
-    TodoTaskDTO toTodoTaskDTO(TodoTaskDTO todoTaskDTO);
+    TodoTask toTodoTask(TodoTaskDTO todoTaskDTO);
+    TodoTaskDTO toTodoTaskDTO(TodoTask todoTask);
 }
