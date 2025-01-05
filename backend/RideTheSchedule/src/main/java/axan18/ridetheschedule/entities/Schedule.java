@@ -70,6 +70,7 @@ public class Schedule {
     }
 
     @Builder.Default
-    @OneToMany(mappedBy = "schedule", cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "scheduleId")
     private Set<TodoTask> todoTasks = new HashSet<>();
 }

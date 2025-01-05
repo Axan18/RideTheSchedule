@@ -1,5 +1,6 @@
 package axan18.ridetheschedule.services;
 
+import axan18.ridetheschedule.entities.TodoTask;
 import axan18.ridetheschedule.mappers.TodoTaskMapper;
 import axan18.ridetheschedule.models.TodoTaskDTO;
 import lombok.RequiredArgsConstructor;
@@ -19,5 +20,10 @@ public class TodoTaskServiceJPA implements TodoTaskService {
     @Override
     public Page<TodoTaskDTO> getTodoTasksForSchedule(UUID scheduleId, int page, int size) {
         return todoTaskRepository.findAllByScheduleId(scheduleId, PageRequest.of(page, size)).map(todoTaskMapper::toTodoTaskDTO);
+    }
+
+    @Override
+    public TodoTask createTodoTask(TodoTaskDTO task, UUID scheduleId) {
+        return null;
     }
 }

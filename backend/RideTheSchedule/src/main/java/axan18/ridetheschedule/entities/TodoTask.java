@@ -35,6 +35,7 @@ public class TodoTask {
     private Boolean completed;
     private Boolean important;
 
-    @ManyToOne
-    private Schedule schedule;
+    @Column(name = "scheduleId")
+    private UUID scheduleId;
+
 }

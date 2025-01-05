@@ -30,17 +30,16 @@ public class BootstrapTodoTaskData implements CommandLineRunner {
         TodoTask todoTask = TodoTask.builder()
                 .name("Test Task 0")
                 .description("Test Task")
-                .schedule(schedule)
+                .scheduleId(schedule.getId())
                 .build();
         TodoTask todoTask1 = TodoTask.builder()
                 .name("Test Task 1")
                 .description("Test Task 1")
-                .schedule(schedule)
+                .scheduleId(schedule.getId())
                 .build();
-        todoTask.setSchedule(schedule);
-        todoTask1.setSchedule(schedule);
         todoTaskRepository.save(todoTask);
         todoTaskRepository.save(todoTask1);
-
+        schedule.getTodoTasks().add(todoTask);
+        schedule.getTodoTasks().add(todoTask1);
     }
 }

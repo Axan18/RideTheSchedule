@@ -38,13 +38,13 @@ class TodoTaskRepositoryTest {
                 .name("Task 1")
                 .description("Task 1 description")
                 .completed(false)
-                .schedule(testSchedule)
+                .scheduleId(testSchedule.getId())
                 .build();
         TodoTask todoTask2 = TodoTask.builder()
                 .name("Task 2")
                 .description("Task 2 description")
                 .completed(false)
-                .schedule(testSchedule)
+                .scheduleId(testSchedule.getId())
                 .build();
         todoTaskRepository.save(todoTask1);
         todoTaskRepository.save(todoTask2);

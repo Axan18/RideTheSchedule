@@ -1,6 +1,7 @@
 package axan18.ridetheschedule.repositories;
 
 import axan18.ridetheschedule.bootstrap.BootstrapScheduleData;
+import axan18.ridetheschedule.bootstrap.BootstrapUserData;
 import axan18.ridetheschedule.entities.Schedule;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-@Import(BootstrapScheduleData.class)
+@Import({BootstrapUserData.class, BootstrapScheduleData.class})
 class ScheduleRepositoryTest {
 
     @Autowired

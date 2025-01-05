@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,10 +25,15 @@ public class ScheduleServiceJPA implements ScheduleService {
     private final AppUserRepository appUserRepository;
     @Override
     public Page<ScheduleDTO> getSchedulesForMonth(int month, int year, int page, int size) {
+        LocalDate startDate = LocalDate.of(year, month, 1);
+
+        LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
+
         return scheduleRepository.findAllByDateBetween(
-                Date.valueOf(year + "-" + month + "-01"),
-                Date.valueOf(year + "-" + month + "-31"),
-                PageRequest.of(page, size)).map(scheduleMapper::toScheduleDTO);
+                        Date.valueOf(startDate),
+                        Date.valueOf(endDate),
+                        PageRequest.of(page, size))
+                .map(scheduleMapper::toScheduleDTO);
     }
 
     @Override

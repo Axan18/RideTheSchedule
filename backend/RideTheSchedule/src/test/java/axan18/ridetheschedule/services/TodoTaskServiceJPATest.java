@@ -53,8 +53,8 @@ class TodoTaskServiceJPATest {
                 .build();
 
         List<TodoTask> tasks = List.of(
-                TodoTask.builder().id(todoTaskId1).schedule(schedule).description("Task1 desc").name("task1").build(),
-                TodoTask.builder().id(todoTaskId2).schedule(schedule).description("Task2 desc").name("task2").build()
+                TodoTask.builder().id(todoTaskId1).description("Task1 desc").name("task1").build(),
+                TodoTask.builder().id(todoTaskId2).description("Task2 desc").name("task2").build()
         );
 
         when(todoTaskRepository.findAllByScheduleId(scheduleId, pageRequest)).thenReturn(new PageImpl<>(tasks));
