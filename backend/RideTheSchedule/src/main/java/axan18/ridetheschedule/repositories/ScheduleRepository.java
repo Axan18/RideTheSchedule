@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ScheduleRepository extends JpaRepository<Schedule, UUID> {
-    Page<Schedule> findAllByDateBetweenOrderByDate(Date startDate, Date endDate, Pageable pageable);
-    Optional<Schedule> findByDate(Date date);
-    Page<Schedule> findAllByDateBetween(Date startDate, Date endDate, Pageable pageable);
+    Page<Schedule> findAllByAppUserIdAndDateBetweenOrderByDate(UUID userId, Date startDate, Date endDate, Pageable pageable);
+    Optional<Schedule> findByDateAndAppUserId(Date date, UUID userId);
+    Page<Schedule> findAllByAppUserIdAndDateBetween(UUID userId, Date startDate, Date endDate,  Pageable pageable);
 }

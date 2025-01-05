@@ -2,6 +2,7 @@ package axan18.ridetheschedule.repositories;
 
 import axan18.ridetheschedule.bootstrap.BootstrapScheduleData;
 import axan18.ridetheschedule.bootstrap.BootstrapUserData;
+import axan18.ridetheschedule.entities.AppUser;
 import axan18.ridetheschedule.entities.Schedule;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +13,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 
 import java.sql.Date;
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,6 +26,8 @@ class ScheduleRepositoryTest {
     @Autowired
     ScheduleRepository scheduleRepository;
     Schedule testSchedule;
+    @Autowired
+    private AppUserRepository appUserRepository;
 
     @BeforeEach
     void setUp() {
@@ -62,13 +67,15 @@ class ScheduleRepositoryTest {
     @Test
     void testGetMonthSchedule()
     {
-        Page<Schedule> monthSchedules = scheduleRepository.findAllByDateBetweenOrderByDate(Date.valueOf("2021-01-01"), Date.valueOf("2021-01-31"), null);
+        AppUser user = appUserRepository.findAll().get(0);
+        Page<Schedule> monthSchedules = scheduleRepository.findAllByAppUserIdAndDateBetween(user.getId(), Date.valueOf("2021-01-01"), Date.valueOf("2021-01-31"), null);
         assertNotNull(monthSchedules);
-        assertThat(monthSchedules.getContent().size()).isEqualTo(32);//31 days in January + test one
+        assertThat(monthSchedules.getContent().size()).isEqualTo(31);//31 days in January
     }
     @Test
     void testAreSchedulesOrdered()
     {
+        UUID userId = appUserRepository.findAll().get(0).getId();
         scheduleRepository.save(Schedule.builder()
                 .date(Date.valueOf("2020-01-01"))
                 .createdDate(Date.valueOf("2021-01-01"))
@@ -77,7 +84,8 @@ class ScheduleRepositoryTest {
                 .date(Date.valueOf("2022-01-01"))
                 .createdDate(Date.valueOf("2021-01-01"))
                 .build()); //making sure the schedules are not ordered by order of creation
-        Page<Schedule> monthSchedules = scheduleRepository.findAllByDateBetweenOrderByDate(Date.valueOf("2021-01-01"), Date.valueOf("2021-01-31"), null);
+        Page<Schedule> monthSchedules = scheduleRepository.findAllByAppUserIdAndDateBetweenOrderByDate(
+                userId, Date.valueOf("2021-01-01"), Date.valueOf("2021-01-31"), null);
         assertNotNull(monthSchedules);
         Date previousDate = Date.valueOf("2021-01-01");
         for(Schedule schedule: monthSchedules)
@@ -89,8 +97,10 @@ class ScheduleRepositoryTest {
     @Test
     void testGetScheduleByDate()
     {
-        Schedule schedule = scheduleRepository.findByDate(Date.valueOf("2021-01-11")).orElse(null);
-        assertNotNull(schedule);
+        UUID userId = appUserRepository.findAll().get(0).getId();
+        Optional<Schedule> s = scheduleRepository.findByDateAndAppUserId(Date.valueOf("2021-01-11"),userId);
+        assertTrue(s.isPresent());
+        Schedule schedule = s.get();
         assertEquals(Date.valueOf("2021-01-11"), schedule.getDate());
     }
 }

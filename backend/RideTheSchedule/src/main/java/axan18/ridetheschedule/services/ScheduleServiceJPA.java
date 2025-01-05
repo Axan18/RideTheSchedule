@@ -24,12 +24,13 @@ public class ScheduleServiceJPA implements ScheduleService {
     private final ScheduleMapper scheduleMapper;
     private final AppUserRepository appUserRepository;
     @Override
-    public Page<ScheduleDTO> getSchedulesForMonth(int month, int year, int page, int size) {
+    public Page<ScheduleDTO> getSchedulesForMonth(UUID scheduleId, int month, int year, int page, int size) {
         LocalDate startDate = LocalDate.of(year, month, 1);
 
         LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
 
-        return scheduleRepository.findAllByDateBetween(
+        return scheduleRepository.findAllByAppUserIdAndDateBetween(
+                        scheduleId,
                         Date.valueOf(startDate),
                         Date.valueOf(endDate),
                         PageRequest.of(page, size))

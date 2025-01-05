@@ -10,6 +10,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ScheduleService {
-    Page<ScheduleDTO> getSchedulesForMonth(int month, int year, int page, int size);
+    Page<ScheduleDTO> getSchedulesForMonth(UUID scheduleId, int month, int year, int page, int size);
     Schedule createSchedule(ScheduleDTO schedule, UUID userId);
 }

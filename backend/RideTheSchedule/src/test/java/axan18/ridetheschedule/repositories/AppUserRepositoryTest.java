@@ -74,7 +74,7 @@ public class AppUserRepositoryTest {
         appUserRepository.save(AppUser.builder()
                 .username("User2")
                 .password("test")
-                .email("example")
+                .email("example@google.com")
                 .lastLoginDate(Date.valueOf("2021-01-01"))
                 .isActive(true)
                 .build());

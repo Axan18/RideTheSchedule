@@ -41,46 +41,14 @@ class ScheduleServiceJPATest {
     final int page = 0;
     final int size = 10;
     PageRequest pageRequest;
+    AppUser user;
     @BeforeEach
     void setUp()
     {
         MockitoAnnotations.openMocks(this);
         pageRequest = PageRequest.of(page, size);
-    }
-
-    @Test
-    void testGetSchedulesForMonth()
-    {
-        List<Schedule> schedules = List.of(
-                Schedule.builder()
-                        .date(java.sql.Date.valueOf("2021-01-10"))
-                        .createdDate(java.sql.Date.valueOf("2021-01-01"))
-                        .build(),
-                Schedule.builder()
-                        .date(java.sql.Date.valueOf("2021-01-02"))
-                        .createdDate(java.sql.Date.valueOf("2021-01-01"))
-                        .build()
-        );
-        when(scheduleRepository.findAllByDateBetween
-                (Date.valueOf("2021-01-01"), Date.valueOf("2021-01-31"), pageRequest))
-                .thenReturn(new PageImpl<>(schedules));
-        when(scheduleMapper.toScheduleDTO(schedules.get(0))).thenReturn(ScheduleDTO.builder().date(Date.valueOf("2021-01-10")).build());
-        when(scheduleMapper.toScheduleDTO(schedules.get(1))).thenReturn(ScheduleDTO.builder().date(Date.valueOf("2021-01-02")).build());
-        Page<ScheduleDTO> scheduleDTOPage = scheduleServiceJPA.getSchedulesForMonth(1, 2021, page, size);
-        assertEquals(2, scheduleDTOPage.getTotalElements());
-        assertThat(scheduleDTOPage.getContent()).extracting(ScheduleDTO::getDate).containsExactlyInAnyOrder(
-                Date.valueOf("2021-01-10"), Date.valueOf("2021-01-02")
-        );
-        verify(scheduleRepository).findAllByDateBetween(Date.valueOf("2021-01-01"), Date.valueOf("2021-01-31"), pageRequest);
-        verify(scheduleMapper).toScheduleDTO(schedules.get(0));
-        verify(scheduleMapper).toScheduleDTO(schedules.get(1));
-    }
-    @Test
-    void testCreateSchedule()
-    {
         UUID userId = UUID.randomUUID();
-        ScheduleDTO scheduleDTO = ScheduleDTO.builder().build();
-        AppUser user = AppUser.builder()
+        user = AppUser.builder()
                 .id(userId)
                 .username("name")
                 .password("psswd")
@@ -90,6 +58,42 @@ class ScheduleServiceJPATest {
                 .createdAt(Timestamp.valueOf(LocalDateTime.now()))
                 .lastModified(Timestamp.valueOf(LocalDateTime.now()))
                 .build();
+    }
+
+    @Test
+    void testGetSchedulesForMonth()
+    {
+        List<Schedule> schedules = List.of(
+                Schedule.builder()
+                        .date(java.sql.Date.valueOf("2021-01-10"))
+                        .createdDate(java.sql.Date.valueOf("2021-01-01"))
+                        .appUser(user)
+                        .build(),
+                Schedule.builder()
+                        .date(java.sql.Date.valueOf("2021-01-02"))
+                        .createdDate(java.sql.Date.valueOf("2021-01-01"))
+                        .appUser(user)
+                        .build()
+        );
+        when(scheduleRepository.findAllByAppUserIdAndDateBetween
+                (user.getId(), Date.valueOf("2021-01-01"), Date.valueOf("2021-01-31"), pageRequest))
+                .thenReturn(new PageImpl<>(schedules));
+        when(scheduleMapper.toScheduleDTO(schedules.get(0))).thenReturn(ScheduleDTO.builder().date(Date.valueOf("2021-01-10")).build());
+        when(scheduleMapper.toScheduleDTO(schedules.get(1))).thenReturn(ScheduleDTO.builder().date(Date.valueOf("2021-01-02")).build());
+        Page<ScheduleDTO> scheduleDTOPage = scheduleServiceJPA.getSchedulesForMonth(user.getId(), 1, 2021, page, size);
+        assertEquals(2, scheduleDTOPage.getTotalElements());
+        assertThat(scheduleDTOPage.getContent()).extracting(ScheduleDTO::getDate).containsExactlyInAnyOrder(
+                Date.valueOf("2021-01-10"), Date.valueOf("2021-01-02")
+        );
+        verify(scheduleRepository).findAllByAppUserIdAndDateBetween(user.getId(), Date.valueOf("2021-01-01"), Date.valueOf("2021-01-31"), pageRequest);
+        verify(scheduleMapper).toScheduleDTO(schedules.get(0));
+        verify(scheduleMapper).toScheduleDTO(schedules.get(1));
+    }
+    @Test
+    void testCreateSchedule()
+    {
+        UUID userId = UUID.randomUUID();
+        ScheduleDTO scheduleDTO = ScheduleDTO.builder().build();
         Schedule schedule = new Schedule();
         when(appUserRepository.findById(userId)).thenReturn(Optional.of(user));
         when(scheduleRepository.save(any(Schedule.class)))
