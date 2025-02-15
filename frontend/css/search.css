@@ -1,0 +1,49 @@
+.search_bg {
+    position: fixed;
+    z-index: -1;
+    width: 100%;
+    height: 100vh;
+}
+.search_bg::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../graphics/search_bg.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    opacity: 0.5;
+    z-index: -1;
+}
+.list{
+    margin-top: 2%;
+    overflow-y: auto;
+    height: 70vh;
+    background-color: rgba(128, 128, 128, 0.8);
+    border-radius: 5%;
+    border: 1px solid black;
+}
+.profile_picture{
+    width: 100%;
+    height: 85%;
+}
+.list_element{
+    border: 2px solid black;
+}
+.profile_picture:hover{
+    cursor: pointer;
+}
+.profile_picture:active{
+    transform: scale(2.0);
+}
+.scr{
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.name{
+    word-wrap: break-word;
+}

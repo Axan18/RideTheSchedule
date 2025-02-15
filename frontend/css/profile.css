@@ -1,0 +1,34 @@
+.footer{
+    height: 10vh;
+    background-color: rgba(128, 128, 128, 0.8);
+}
+.menu_element_profile{
+    height: 90%;
+    background-color: rgba(234, 39, 39, 0.7);
+    text-align: center;
+}
+.menu_element_profile:hover{
+    background-color: rgba(234, 39, 39, 1);
+}
+.profile_bg {
+    background-image: url(../graphics/profile_bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    z-index: -1;
+}
+.attributes{
+    background-color: rgba(128, 128, 128, 0.8);
+    border-radius: 5%;
+    padding: 2%;
+    color: whitesmoke;
+}
+.description{
+    background-color: rgba(128, 128, 128, 0.8);
+    padding: 2%;
+    color: whitesmoke;
+}

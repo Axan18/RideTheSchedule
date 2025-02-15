@@ -1,0 +1,20 @@
+.menu{
+    height: 90vh;
+    background-color: rgba(128, 128, 128, 0.9);
+}
+.schedule{
+    height: 100%;
+    overflow-y: scroll;
+
+}
+.schedule_background{
+    background-color: rgba(128, 128, 128, 0.9);
+    width: 85%;
+    height: 75vh;
+    border-radius: 5%;
+    overflow: hidden;
+}
+.interval{
+    border: 1px solid rgba(234, 39, 39, 1);
+    height: 20%;
+}

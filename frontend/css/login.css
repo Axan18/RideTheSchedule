@@ -1,0 +1,30 @@
+.background
+{
+    background-image: url(../graphics/background_login.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    z-index: -1;
+    color: whitesmoke;
+}
+.login-background {
+    background-color: rgba(234, 39, 39, 0.8);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 0 15px;
+    border-radius: 15%;
+}
+.form-back{
+    margin-top:20vh;
+}
+#emailHelp{
+    color: whitesmoke;
+}
+.text_area{
+    height:  30vh;
+}
