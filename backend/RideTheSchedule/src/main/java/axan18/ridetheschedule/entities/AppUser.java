@@ -79,6 +79,12 @@ public class AppUser {
     @OneToMany(mappedBy = "author")
     private Set<ScheduleTaskComment> comments = new HashSet<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "user1")
+    private Set<Friend> friendsSent = new HashSet<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "user2")
+    private Set<Friend> friendsReceived = new HashSet<>();
 
 }
