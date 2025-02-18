@@ -46,7 +46,7 @@ public class ScheduleServiceJPA implements ScheduleService {
         Schedule schedule = scheduleMapper.toSchedule(s);
         schedule.setAppUser(user);
         schedule = scheduleRepository.save(schedule);
-        user.getSchedules().add(schedule);
+        //user.getSchedules().add(schedule);
         return schedule;
     }
 }

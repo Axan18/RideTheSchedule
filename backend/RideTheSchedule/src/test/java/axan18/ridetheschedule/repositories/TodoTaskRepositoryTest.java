@@ -4,6 +4,9 @@ import axan18.ridetheschedule.bootstrap.BootstrapScheduleData;
 import axan18.ridetheschedule.bootstrap.BootstrapUserData;
 import axan18.ridetheschedule.entities.Schedule;
 import axan18.ridetheschedule.entities.TodoTask;
+import axan18.ridetheschedule.mappers.TodoTaskMapper;
+import axan18.ridetheschedule.models.ScheduleDTO;
+import axan18.ridetheschedule.models.TodoTaskDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +14,13 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
 import java.sql.Date;
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @DataJpaTest
 

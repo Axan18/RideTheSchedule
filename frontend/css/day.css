@@ -1,0 +1,19 @@
+.fc-list-event-time {
+    display: none;
+}
+#eventFormPanel {
+    position: fixed;
+    top: 20%;
+    right: -300px;
+    width: 300px;
+    transition: right 0.3s;
+    z-index: 10;
+}
+#todoFormPanel {
+    position: fixed;
+    top: 20%;
+    left: -300px;
+    width: 300px;
+    transition: left 0.3s;
+    z-index: 10;
+}

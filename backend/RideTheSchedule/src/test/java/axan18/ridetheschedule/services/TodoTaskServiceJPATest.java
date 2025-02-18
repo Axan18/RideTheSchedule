@@ -4,6 +4,7 @@ import axan18.ridetheschedule.entities.Schedule;
 import axan18.ridetheschedule.entities.TodoTask;
 import axan18.ridetheschedule.mappers.TodoTaskMapper;
 import axan18.ridetheschedule.models.TodoTaskDTO;
+import axan18.ridetheschedule.repositories.ScheduleRepository;
 import axan18.ridetheschedule.repositories.TodoTaskRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,9 +17,11 @@ import org.springframework.data.domain.PageRequest;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -28,6 +31,8 @@ class TodoTaskServiceJPATest {
     private TodoTaskMapper todoTaskMapper;
     @Mock
     private TodoTaskRepository todoTaskRepository;
+    @Mock
+    private ScheduleRepository scheduleRepository;
 
     @InjectMocks
     TodoTaskServiceJPA todoTaskServiceJPA;
@@ -74,5 +79,27 @@ class TodoTaskServiceJPATest {
         verify(todoTaskRepository).findAllByScheduleId(scheduleId, pageRequest);
         verify(todoTaskMapper).toTodoTaskDTO(tasks.get(0));
         verify(todoTaskMapper).toTodoTaskDTO(tasks.get(1));
+    }
+
+    @Test
+    void testCreateTodoTask()
+    {
+        UUID scheduleId = UUID.randomUUID();
+        Schedule schedule = Schedule.builder().id(scheduleId).build();
+        TodoTaskDTO todoTaskDTO = TodoTaskDTO.builder().build();
+        TodoTask todoTask = TodoTask.builder().build();
+        when(todoTaskMapper.toTodoTask(todoTaskDTO)).thenReturn(todoTask);
+        when(todoTaskRepository.save(todoTask)).thenReturn(todoTask);
+        when(scheduleRepository.findById(scheduleId)).thenReturn(Optional.of(schedule));
+
+        TodoTask result = todoTaskServiceJPA.createTodoTask(todoTaskDTO,scheduleId);
+
+        assertNotNull(result);
+        assertEquals(schedule.getId(), result.getScheduleId());
+        assertTrue(schedule.getTodoTasks().contains(result));
+
+        verify(todoTaskRepository).save(todoTask);
+        verify(scheduleRepository).findById(scheduleId);
+
     }
 }

@@ -1,0 +1,25 @@
+.background
+{
+    background: linear-gradient(rgba(255,255,255, 0.35), rgba(255,255,255, 0.35)), url('/graphics/background.jpg');
+    min-height: 100vh;
+    width: 100%;
+    z-index: -1;
+    color: whitesmoke;
+    font-family: open sans, sans-serif;
+    background-repeat: repeat;
+}
+nav{
+    background-color: rgb(30, 116, 162);
+}
+.row{
+    color: #2d3233;
+    background: white;
+    margin: 0;
+}
+.menu_element{
+    color: whitesmoke !important;
+}
+.dropdown-menu {
+    max-height: 200px;
+    overflow-y: auto;
+}
