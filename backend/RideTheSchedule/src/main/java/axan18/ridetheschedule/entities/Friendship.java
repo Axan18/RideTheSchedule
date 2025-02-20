@@ -3,10 +3,7 @@ package axan18.ridetheschedule.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.annotations.UuidGenerator;
-import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -18,9 +15,9 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Builder
-public class Friend {
+public class Friendship {
     @EmbeddedId
-    private FriendId id;
+    private FriendshipId id;
 
     @NotNull
     private Status status;
@@ -38,7 +35,7 @@ public class Friend {
     @JoinColumn(name = "id2", nullable = false)
     private AppUser user2;
 
-    enum Status{
+    public enum Status{
         PENDING,
         ACCEPTED
     }
@@ -48,8 +45,8 @@ public class Friend {
     @NoArgsConstructor
     @AllArgsConstructor
     @EqualsAndHashCode
-    public static class FriendId implements Serializable {
-        private UUID id1;
-        private UUID id2;
+    public static class FriendshipId implements Serializable {//key from two ids
+        private UUID id1; //sender
+        private UUID id2; //receiver
     }
 }

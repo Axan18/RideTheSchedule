@@ -81,10 +81,10 @@ public class AppUser {
 
     @Builder.Default
     @OneToMany(mappedBy = "user1")
-    private Set<Friend> friendsSent = new HashSet<>();
+    private Set<Friendship> friendsSent = new HashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "user2")
-    private Set<Friend> friendsReceived = new HashSet<>();
+    private Set<Friendship> friendsReceived = new HashSet<>();
 
 }
