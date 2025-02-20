@@ -34,7 +34,7 @@ class SharedScheduleRepositoryTest {
         }
         assertFalse(result.isEmpty());
     }
-    
+
     @Test
     void testWrongDate(){
         List<AppUser> users = appUserRepository.findAll();
