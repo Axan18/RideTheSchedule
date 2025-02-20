@@ -29,9 +29,22 @@ class SharedScheduleRepositoryTest {
         HashMap<UUID, List<AppUser>> result = new HashMap<>();
         for(AppUser u : users){
             UUID userId = u.getId();
-            result.put(userId, sharedScheduleRepository.findUsersWhoSharedSchedules(userId, 1,2021));
+            List<AppUser> listOfSharers = sharedScheduleRepository.findUsersWhoSharedSchedules(userId, 1,2022);
+            if(!listOfSharers.isEmpty()) result.put(userId,listOfSharers);
+        }
+        assertFalse(result.isEmpty());
+    }
+    
+    @Test
+    void testWrongDate(){
+        List<AppUser> users = appUserRepository.findAll();
+        HashMap<UUID, List<AppUser>> result = new HashMap<>();
+        for(AppUser u : users){
+            UUID userId = u.getId();
+            List<AppUser> listOfSharers = sharedScheduleRepository.findUsersWhoSharedSchedules(userId, 1,2022);
+            if(!listOfSharers.isEmpty()) result.put(userId,listOfSharers);
         }
 
-        assertFalse(result.isEmpty());
+        assertTrue(result.isEmpty());
     }
 }
