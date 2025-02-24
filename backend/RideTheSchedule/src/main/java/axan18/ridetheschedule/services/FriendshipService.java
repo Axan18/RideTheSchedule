@@ -11,6 +11,6 @@ public interface FriendshipService {
     Optional<Friendship> establishFriendship(UUID sender, UUID receiver);
     Optional<Friendship> sendFriendshipRequest(UUID sender, UUID receiver);
     Page<Friendship> getFriendshipsById(UUID id, int page, int size);
-    Page<Friendship> getFriendshipsByIdAndStatus(UUID id, int page, int size);
+    Page<Friendship> getFriendshipsByIdAndStatus(UUID id, Friendship.Status status, int page, int size);
 
 }
