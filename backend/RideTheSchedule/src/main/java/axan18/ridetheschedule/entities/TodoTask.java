@@ -22,9 +22,8 @@ import java.util.UUID;
 public class TodoTask {
 
     @Id
-    @JdbcTypeCode(SqlTypes.CHAR)
     @UuidGenerator
-    @Column(length = 36, columnDefinition = "CHAR(36)", updatable = false, nullable = false )
+    @Column(length = 36, columnDefinition = "uuid", updatable = false, nullable = false )
     private UUID id;
     @NotNull
     @NotBlank

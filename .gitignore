@@ -55,6 +55,7 @@ application.yml
 *.h2.db
 *.mv.db
 *.db
+.env
 
 # Temporary files
 *.swp

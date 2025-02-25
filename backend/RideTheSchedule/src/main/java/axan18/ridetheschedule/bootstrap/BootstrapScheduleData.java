@@ -27,7 +27,7 @@ public class BootstrapScheduleData implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-        loadScheduleData();
+        if(scheduleRepository.count()==0) loadScheduleData();
     }
     private void loadScheduleData() {
         List<AppUser> users = appUserRepository.findAll();

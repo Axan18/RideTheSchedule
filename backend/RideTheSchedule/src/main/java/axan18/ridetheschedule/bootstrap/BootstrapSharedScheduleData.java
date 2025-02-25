@@ -29,6 +29,7 @@ public class BootstrapSharedScheduleData implements CommandLineRunner {
     @Transactional
     @Override
     public void run(String... args) throws Exception {
+        if(sharedScheduleRepository.count()!=0) return;
         List<AppUser> users = appUserRepository.findAll();
         List<Schedule> schedules = scheduleRepository.findAll();
         List<SharedSchedule> sharedScheduleList = new ArrayList<>();

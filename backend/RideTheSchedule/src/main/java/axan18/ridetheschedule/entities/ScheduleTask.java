@@ -41,8 +41,7 @@ public class ScheduleTask {
     }
     @Id
     @UuidGenerator
-    @JdbcTypeCode(SqlTypes.CHAR)
-    @Column(length = 36, columnDefinition = "CHAR(36)", updatable = false, nullable = false )
+    @Column(length = 36, columnDefinition = "uuid", updatable = false, nullable = false )
     private UUID id;
 
     @NotNull

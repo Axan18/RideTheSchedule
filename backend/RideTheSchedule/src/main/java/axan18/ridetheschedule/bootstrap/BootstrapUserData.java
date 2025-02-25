@@ -25,7 +25,7 @@ public class BootstrapUserData implements CommandLineRunner {
     @Transactional
     @Override
     public void run(String... args) throws Exception {
-        loadUserData();
+        if(appUserRepository.count()==0) loadUserData();
     }
 
     private void loadUserData() {

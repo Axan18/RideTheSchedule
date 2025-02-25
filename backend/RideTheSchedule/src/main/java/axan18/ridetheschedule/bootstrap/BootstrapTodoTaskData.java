@@ -22,7 +22,7 @@ public class BootstrapTodoTaskData implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-        loadTodoTaskData();
+        if(scheduleRepository.count()==0) loadTodoTaskData();
     }
 
     private void loadTodoTaskData() {

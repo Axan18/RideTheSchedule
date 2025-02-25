@@ -1,9 +1,6 @@
 package axan18.ridetheschedule.entities;
 
-import jakarta.persistence.Converter;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,7 +29,7 @@ public class RecurringTask {
     }
     @Id
     @UuidGenerator
-    @JdbcTypeCode(SqlTypes.CHAR)
+    @Column(length = 36, columnDefinition = "uuid", updatable = false, nullable = false )
     private UUID id;
 
     @NotNull

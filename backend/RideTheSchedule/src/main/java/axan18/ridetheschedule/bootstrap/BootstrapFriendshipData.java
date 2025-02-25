@@ -23,6 +23,7 @@ public class BootstrapFriendshipData implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        if(friendshipRepository.count()!=0) return;
         List<AppUser> users = appUserRepository.findAll();
         for(int i = 0; i<users.size()-1;i++)
         {
