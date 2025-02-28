@@ -38,8 +38,8 @@ public class AppUser {
     @Column(length = 50)
     private String username;
 
-    @NotNull
-    @NotBlank
+//    @NotNull
+//    @NotBlank
     @Size(max = 60)
     @Column(length = 60, columnDefinition = "varchar(60)", nullable = false)
     private String password;
