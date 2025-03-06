@@ -34,7 +34,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     .lastModified(Timestamp.valueOf(LocalDateTime.now()))
                     .isActive(true)
                     .lastLoginDate(Date.valueOf(LocalDate.now()))
-                    .username(oAuth2User.getName())
+                    .username(oAuth2User.getAttribute("name"))
                     .createdAt(Timestamp.valueOf(LocalDateTime.now()))
                     .build();
             appUserRepository.save(newUser);

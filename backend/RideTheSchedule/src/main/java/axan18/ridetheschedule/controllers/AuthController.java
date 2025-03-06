@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,13 +26,14 @@ public class AuthController {
         this.jwtService = jwtService;
     }
 
-    @PostMapping("/token")
-    public ResponseEntity<Map<String, String>> getToken(Authentication authentication) {
-        if (authentication == null) {
+    @GetMapping("/token")
+    public ResponseEntity<Map<String, String>> getToken(Principal principal) {
+        if (principal == null) {
+            System.out.println("Not logged in");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        String token = jwtService.generateToken(authentication);
+        String token = jwtService.generateToken(principal);
         Map<String, String> response = new HashMap<>();
         response.put("token", token);
 

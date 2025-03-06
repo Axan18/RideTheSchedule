@@ -1,12 +1,15 @@
 package axan18.ridetheschedule.services;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.AuthenticatedPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.Authentication;
 
@@ -23,8 +26,7 @@ public class JwtService {
     @Value("${jwt.expiration}")
     private long expiration;
 
-    public String generateToken(Authentication authentication) {
-        Object principal = authentication.getPrincipal();
+    public String generateToken(Object principal) {
         String email = null;
         String name = null;
         String picture = null;
@@ -52,7 +54,7 @@ public class JwtService {
     }
 
 
-    public Claims parseToken(String token) {
+    public Claims parseToken(String token) { //TODO: error handling
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
                 .build()
@@ -62,5 +64,17 @@ public class JwtService {
     private Key getSigningKey() {
         byte[] keyBytes = Base64.getDecoder().decode(secret);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    public boolean isTokenValid(String token) {
+        try {
+            Claims claims = parseToken(token);
+            return !claims.getExpiration().before(new Date()); // Czy token nie wygasł
+        } catch (ExpiredJwtException e) {
+            System.out.println("Token wygasł: " + e.getMessage());
+        } catch (JwtException e) {
+            System.out.println("Błąd walidacji JWT: " + e.getMessage());
+        }
+        return false;
     }
 }
