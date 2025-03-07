@@ -81,6 +81,7 @@
         </div>
         <script>
           document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
             var todo = document.getElementById('todo');
             var todoList = new FullCalendar.Calendar(todo, {
               initialView: 'listDay',
@@ -89,6 +90,7 @@
                 center: '',
                 right: ''
               },
+              initialDate: urlParams.get('date'),
               eventTimeFormat: {
                 hour: 'numeric',
                 minute: '2-digit',
@@ -158,6 +160,7 @@
         </div>
         <script>
           document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
               initialView: 'timeGridDay',
@@ -166,6 +169,7 @@
                 center: '',
                 right: ''
               },
+              initialDate: urlParams.get('date'),
               events: [
                 {
                   title: 'Birthday Party',

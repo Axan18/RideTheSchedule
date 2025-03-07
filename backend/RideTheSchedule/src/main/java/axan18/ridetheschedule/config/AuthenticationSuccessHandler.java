@@ -1,11 +1,13 @@
 package axan18.ridetheschedule.config;
 
+import axan18.ridetheschedule.repositories.AppUserRepository;
 import axan18.ridetheschedule.services.JwtService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jdk.jfr.Category;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -17,20 +19,23 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.util.UUID;
 
 @Component
+@RequiredArgsConstructor
 public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final JwtService jwtService;
-
-    @Autowired
-    public AuthenticationSuccessHandler(JwtService jwtService) {
-        this.jwtService = jwtService;
-    }
+    private final AppUserRepository appUserRepository;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         OAuth2User user = (OAuth2User) authentication.getPrincipal();
-        String token = jwtService.generateToken(user);
+        String email = user.getAttribute("email");
+        if (email == null) {
+            throw new IllegalArgumentException("Email not found in authentication principal");
+        }
+        UUID userID = appUserRepository.getIdByEmail(email);
+        String token = jwtService.generateToken(user, userID);
         ResponseCookie jwtCookie = ResponseCookie.from("JWT", token)
                 .httpOnly(true)
                 .secure(true) //https

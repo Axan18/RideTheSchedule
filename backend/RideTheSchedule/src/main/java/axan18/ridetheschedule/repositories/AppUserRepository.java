@@ -24,4 +24,7 @@ public interface AppUserRepository extends JpaRepository<AppUser, UUID> {
     void updateLastLogin(@Param("userId") UUID userId, @Param("lastLoginDate") Date lastLoginDate);
 
     Optional<AppUser> findByEmail(String email);
+
+    @Query("SELECT u.id from AppUser u where u.email= :email")
+    UUID getIdByEmail(@Param("email") String email);
 }

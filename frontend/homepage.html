@@ -74,8 +74,7 @@
             var calendar = new FullCalendar.Calendar(calendarEl, {
               initialView: 'dayGridMonth',
               dateClick: function(info) {
-                // Przekierowanie do strony z datą jako parametrem
-                window.location.href = `dayview.html?date=${info.dateStr}`;
+                window.location.href = `dayview.html?date=`+info.dateStr.substring(0, 10);
               }
             });
             calendar.render();

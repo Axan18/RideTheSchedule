@@ -6,17 +6,14 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.AuthenticatedPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Service;
-import org.springframework.security.core.Authentication;
-
-import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
+import java.util.UUID;
 
 @Service
 public class JwtService {
@@ -26,10 +23,14 @@ public class JwtService {
     @Value("${jwt.expiration}")
     private long expiration;
 
-    public String generateToken(Object principal) {
+    public String generateToken(Object principal, UUID userID) {
         String email = null;
         String name = null;
         String picture = null;
+
+        if(userID==null){
+            throw new IllegalArgumentException("UserID not provided to token generator");
+        }
 
         if (principal instanceof OAuth2User oAuth2User) {
             email = oAuth2User.getAttribute("email");
@@ -39,12 +40,10 @@ public class JwtService {
             email = userDetails.getUsername();
         }
 
-        if (email == null) {
-            throw new IllegalArgumentException("Email not found in authentication principal");
-        }
 
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(userID.toString())
+                .claim("email", email)
                 .claim("name", name)
                 .claim("picture", picture)
                 .setIssuedAt(new Date())
