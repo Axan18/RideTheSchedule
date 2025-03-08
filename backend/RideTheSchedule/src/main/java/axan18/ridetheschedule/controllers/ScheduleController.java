@@ -22,7 +22,7 @@ public class ScheduleController {
     public static final String SCHEDULE_PATH = "/schedules";
 
     @PostMapping(SCHEDULE_PATH+"/add_task")
-    public ResponseEntity addScheduleTask(@CookieValue(name = "token") String token, @Validated @RequestBody ScheduleTaskDTO scheduleTaskDTO){
+    public ResponseEntity addScheduleTask(@CookieValue(name = "JWT") String token, @Validated @RequestBody ScheduleTaskDTO scheduleTaskDTO){
         Claims claims = jwtService.parseToken(token);
         UUID userID = UUID.fromString(claims.getSubject());
         return scheduleTaskService.createScheduleTask(userID,scheduleTaskDTO)

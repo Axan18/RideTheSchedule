@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="css/day.css">
   <link rel="stylesheet" href="css/welcome.css">
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/main.min.css">
 
 <body>
 <div class = 'container-fluid background d-flex justify-content-center'>
@@ -140,19 +139,19 @@
           <form id="eventForm">
             <div class="mb-3">
               <label for="eventTitle" class="form-label">What's the event?</label>
-              <input type="text" id="eventTitle" class="form-control" required>
+              <input type="text" id="eventTitle" name="name" class="form-control" required>
             </div>
             <div class="mb-3">
               <label for="eventDescription" class="form-label">Tell us more about it</label>
-              <input type="text" id="eventDescription" class="form-control">
+              <input type="text" id="eventDescription" name="description" class="form-control">
             </div>
             <div class="mb-3">
               <label for="eventStart" class="form-label">Start at:</label>
-              <input type="time" id="eventStart" class="form-control" required>
+              <input type="time" id="eventStart" name ="startTime" class="form-control" required>
             </div>
             <div class="mb-3">
               <label for="eventEnd" class="form-label">End at:</label>
-              <input type="time" id="eventEnd" class="form-control">
+              <input type="time" id="eventEnd" name="endTime" class="form-control">
             </div>
             <button type="submit" class="btn btn-primary">Add</button>
             <button type="button" class="btn btn-secondary" id="closeFormBtn">Close</button>
@@ -208,6 +207,9 @@
   document.getElementById('closeTodoFormBtn').addEventListener('click', function() {
     document.getElementById('todoFormPanel').style.left = '-300px';
   });
+</script>
+<script src="js/day_viewCRUD.js">
+
 </script>
 </body>
 </html>

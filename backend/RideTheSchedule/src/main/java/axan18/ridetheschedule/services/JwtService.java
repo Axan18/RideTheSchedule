@@ -6,6 +6,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.oauth2.jwt.JwtException;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -75,5 +79,11 @@ public class JwtService {
             System.out.println("Błąd walidacji JWT: " + e.getMessage());
         }
         return false;
+    }
+
+    public Authentication getAuthentication(String token) {
+        Claims claims = parseToken(token);
+        String id = claims.getSubject();
+        return new UsernamePasswordAuthenticationToken(id,null,null);
     }
 }
