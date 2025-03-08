@@ -1,11 +1,11 @@
 const scheduleTaskForm = document.getElementById('eventForm');
+const currentDate = new Date(new URLSearchParams(window.location.search).get('date')).toISOString().split('T')[0];
 scheduleTaskForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const eventTitle = document.getElementById('eventTitle').value;
     const eventDescription = document.getElementById('eventDescription').value;
     const eventStart = document.getElementById('eventStart').value;
     const eventEnd = document.getElementById('eventEnd').value;
-    const currentDate = new Date(new URLSearchParams(window.location.search).get('date')).toISOString().split('T')[0];
     let data = {
         name: eventTitle,
         description: eventDescription,
@@ -20,7 +20,7 @@ scheduleTaskForm.addEventListener('submit', async (e) => {
     data.endTime = endTime;
 
     console.log(data);
-    const response = await fetch('https://localhost:8443/schedules/add_task', {
+    const response = await fetch('https://localhost:8443/schedules', {
         method: 'POST',
         credentials: "include",
         headers: {
@@ -33,6 +33,30 @@ scheduleTaskForm.addEventListener('submit', async (e) => {
         location.reload();
     } else {
         alert('Failed to create task');
+    }
+});
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const response = await fetch('https://localhost:8443/schedules/'+currentDate, {
+        method: 'GET',
+        credentials: "include",
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    });
+    if (response.ok) {
+        const data = await response.json();
+        data.forEach(task => {
+            calendar.addEvent({
+                id: task.id,
+                title: task.name,
+                start: task.startTime,
+                end: task.endTime,
+                description: task.description
+            });
+        })
+    } else {
+        alert('Failed to fetch tasks');
     }
 });
 /*

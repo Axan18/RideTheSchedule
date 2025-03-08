@@ -6,6 +6,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper(uses = DateMapper.class, componentModel = "spring")
 public interface ScheduleTaskMapper {
     ScheduleTaskMapper INSTANCE = Mappers.getMapper(ScheduleTaskMapper.class);
@@ -15,5 +17,7 @@ public interface ScheduleTaskMapper {
     @Mapping(source = "createdAt", target = "createdAt", qualifiedByName = "TimestampToLocalDateTime")
     @Mapping(source = "lastModified", target = "lastModified", qualifiedByName = "TimestampToLocalDateTime")
     ScheduleTaskDTO toScheduleTaskDTO(ScheduleTask scheduleTask);
+
+    List<ScheduleTaskDTO> toDTOList(List<ScheduleTask> scheduleTasks); // Dodana metoda mapowania listy
 
 }

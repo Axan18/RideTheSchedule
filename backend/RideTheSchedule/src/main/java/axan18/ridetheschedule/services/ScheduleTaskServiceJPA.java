@@ -16,8 +16,10 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.sql.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -46,5 +48,11 @@ public class ScheduleTaskServiceJPA implements ScheduleTaskService {
         task.setSchedule(schedule);
         ScheduleTask newTask = scheduleTaskRepository.save(task);
         return Optional.of(scheduleTaskMapper.toScheduleTaskDTO(newTask));
+    }
+
+    @Override
+    public List<ScheduleTaskDTO> getTasksForSchedule(UUID scheduleID) {
+        List<ScheduleTask> tasks = scheduleTaskRepository.findAllByScheduleId(scheduleID);
+        return scheduleTaskMapper.toDTOList(tasks);
     }
 }

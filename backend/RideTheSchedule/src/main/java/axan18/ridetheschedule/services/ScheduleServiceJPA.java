@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -24,13 +23,13 @@ public class ScheduleServiceJPA implements ScheduleService {
     private final ScheduleMapper scheduleMapper;
     private final AppUserRepository appUserRepository;
     @Override
-    public Page<ScheduleDTO> getSchedulesForMonth(UUID scheduleId, int month, int year, int page, int size) {
+    public Page<ScheduleDTO> getSchedulesForMonth(UUID userID, int month, int year, int page, int size) {
         LocalDate startDate = LocalDate.of(year, month, 1);
 
         LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
 
         return scheduleRepository.findAllByAppUserIdAndDateBetween(
-                        scheduleId,
+                        userID,
                         Date.valueOf(startDate),
                         Date.valueOf(endDate),
                         PageRequest.of(page, size))
@@ -48,5 +47,11 @@ public class ScheduleServiceJPA implements ScheduleService {
         schedule = scheduleRepository.save(schedule);
         //user.getSchedules().add(schedule);
         return schedule;
+    }
+
+    @Override
+    public Optional<ScheduleDTO> getScheduleForDate(UUID userID, Date date) {
+        Optional<Schedule> schedule = scheduleRepository.findByDateAndAppUserId(date, userID);
+        return schedule.map(scheduleMapper::toScheduleDTO);
     }
 }
