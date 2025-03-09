@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,7 +21,7 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Friendsh
     void establishFriendship(@Param("id1") UUID sender, @Param("id2") UUID receiver, @Param("status") Friendship.Status status);
 
     @Query("SELECT f from Friendship f where f.id.id1= :id or f.id.id2= :id")
-    Page<Friendship> getFriendshipsById(@Param("id") UUID id, Pageable pageable);
+    List<Friendship> getFriendshipsById(@Param("id") UUID id);
 
     @Query("SELECT f from Friendship f where f.id.id1= :id or f.id.id2= :id and f.status = :status")
     Page<Friendship> getFriendshipsByIdAndStatus(@Param("id") UUID id, @Param("status") Friendship.Status status, Pageable pageable);

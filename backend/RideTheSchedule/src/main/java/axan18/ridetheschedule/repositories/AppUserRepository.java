@@ -18,6 +18,9 @@ import java.util.UUID;
 public interface AppUserRepository extends JpaRepository<AppUser, UUID> {
     Page<AppUser> findAllByUsernameIsLikeIgnoreCase(String firstName, Pageable pageable);
 
+    @Query("SELECT u FROM AppUser u WHERE LOWER(u.username) LIKE LOWER(CONCAT('%', :username, '%')) ORDER BY u.username ASC")
+    Page<AppUser> searchByUsername(@Param("username") String username, Pageable pageable);
+
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query("UPDATE AppUser SET lastLoginDate = :lastLoginDate WHERE id = :userId")

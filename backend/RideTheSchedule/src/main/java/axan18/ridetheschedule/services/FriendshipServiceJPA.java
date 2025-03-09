@@ -2,13 +2,17 @@ package axan18.ridetheschedule.services;
 
 import axan18.ridetheschedule.entities.AppUser;
 import axan18.ridetheschedule.entities.Friendship;
+import axan18.ridetheschedule.mappers.FriendshipMapper;
+import axan18.ridetheschedule.models.FriendshipDTO;
 import axan18.ridetheschedule.repositories.AppUserRepository;
 import axan18.ridetheschedule.repositories.FriendshipRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,6 +22,7 @@ public class FriendshipServiceJPA implements FriendshipService {
 
     private final AppUserRepository appUserRepository;
     private final FriendshipRepository friendshipRepository;
+    private final FriendshipMapper friendshipMapper;
 
     @Override
     public Optional<Friendship> establishFriendship(UUID sender, UUID receiver) {
@@ -43,9 +48,8 @@ public class FriendshipServiceJPA implements FriendshipService {
     }
 
     @Override
-    public Page<Friendship> getFriendshipsById(UUID id, int page, int size) {
-        PageRequest pr = PageRequest.of(page,size);
-        return friendshipRepository.getFriendshipsById(id,pr);
+    public List<FriendshipDTO> getFriendshipsById(UUID id) {
+        return friendshipRepository.getFriendshipsById(id).stream().map(friendshipMapper::toFriendshipDTO).toList();
     }
 
     @Override

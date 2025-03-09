@@ -49,10 +49,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         data.forEach(task => {
             calendar.addEvent({
                 id: task.id,
-                title: task.name,
+                title: task.name + ': '+ task.description,
                 start: task.startTime,
                 end: task.endTime,
-                description: task.description
             });
         })
     } else {

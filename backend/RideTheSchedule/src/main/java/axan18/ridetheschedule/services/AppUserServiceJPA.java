@@ -3,12 +3,14 @@ package axan18.ridetheschedule.services;
 import axan18.ridetheschedule.entities.AppUser;
 import axan18.ridetheschedule.mappers.AppUserMapper;
 import axan18.ridetheschedule.models.AppUserDTO;
+import axan18.ridetheschedule.models.AppUserPublicDTO;
 import axan18.ridetheschedule.repositories.AppUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -25,14 +27,13 @@ public class AppUserServiceJPA implements AppUserService {
     private final AppUserRepository appUserRepository;
     private final AppUserMapper appUserMapper;
     @Override
-    public Page<AppUserDTO> listUsers(int page, int size) {
-        PageRequest pageRequest = PageRequest.of(page, size);
-        return appUserRepository.findAll(pageRequest).map(appUserMapper::toAppUserDTO);
+    public Page<AppUserPublicDTO> listUsers(Pageable pageable) {
+        return appUserRepository.findAll(pageable).map(appUserMapper::toAppUserPublicDTO);
     }
 
     @Override
-    public Page<AppUserDTO> getUserByNameLike(String expression, PageRequest pageRequest) {
-        Page<AppUser> users = appUserRepository.findAllByUsernameIsLikeIgnoreCase("%"+expression+"%", pageRequest);
+    public Page<AppUserDTO> getUserByNameLike(String expression, Pageable pageable) {
+        Page<AppUser> users = appUserRepository.findAllByUsernameIsLikeIgnoreCase("%"+expression+"%", pageable);
         if(users.isEmpty()) {
             return Page.empty();
         }
@@ -82,5 +83,14 @@ public class AppUserServiceJPA implements AppUserService {
     @Override
     public void updateLastLogin(UUID userId) {
         appUserRepository.updateLastLogin(userId, Date.valueOf(LocalDate.now()));
+    }
+
+    @Override
+    public Page<AppUserPublicDTO> getUsersByName(String username, Pageable pageable) {
+        Page<AppUser> users = appUserRepository.searchByUsername(username, pageable);
+        if(users.isEmpty()){
+            return Page.empty();
+        }
+        return users.map(appUserMapper::toAppUserPublicDTO);
     }
 }

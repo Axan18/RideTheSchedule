@@ -24,6 +24,10 @@ public abstract class FriendshipMapper {
     @Mapping(target = "user2", expression = "java(getUserById(friendshipDTO.getUser2Id()))")
     public abstract Friendship toFriendship(FriendshipDTO friendshipDTO);
 
+    @Mapping(target = "user1Id", source = "user1.id")
+    @Mapping(target = "user2Id", source = "user2.id")
+    public abstract FriendshipDTO toFriendshipDTO(Friendship friendship);
+
     protected AppUser getUserById(UUID id) {
         return appUserRepository.findById(id).orElseThrow();
     }
