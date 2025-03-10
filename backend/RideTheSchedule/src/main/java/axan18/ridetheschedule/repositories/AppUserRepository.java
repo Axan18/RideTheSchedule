@@ -36,4 +36,13 @@ public interface AppUserRepository extends JpaRepository<AppUser, UUID> {
 
     @Query("SELECT u.username from AppUser u where u.id=:id")
     String getUsernameByID(@Param("id") UUID id);
+
+    @Query("""
+    SELECT u FROM AppUser u
+    JOIN Friendship f ON (f.id.id1 = :id AND u.id = f.id.id2)
+                    OR (f.id.id2 = :id AND u.id = f.id.id1)
+    WHERE f.status = axan18.ridetheschedule.entities.Friendship.Status.ACCEPTED
+""")
+    List<AppUser> getFriends(@Param("id") UUID id);
+
 }

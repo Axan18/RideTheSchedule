@@ -1,6 +1,7 @@
 package axan18.ridetheschedule.controllers;
 
 import axan18.ridetheschedule.entities.Friendship;
+import axan18.ridetheschedule.models.AppUserPublicDTO;
 import axan18.ridetheschedule.services.AppUserService;
 import axan18.ridetheschedule.services.FriendshipService;
 import axan18.ridetheschedule.services.JwtService;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,7 +37,7 @@ public class AppUserController {
         return ResponseEntity.ok(appUserService.listUsersWithoutMe(userID,pageable));
     }
     @GetMapping(USER_PATH_FRIENDS)
-    ResponseEntity getFriends(@CookieValue(name = "JWT") String token, @PageableDefault(size = PAGE_SIZE)Pageable pageable){
+    ResponseEntity getFriendships(@CookieValue(name = "JWT") String token, @PageableDefault(size = PAGE_SIZE)Pageable pageable){
         Claims claims = jwtService.parseToken(token);
         UUID userID = UUID.fromString(claims.getSubject());
         return ResponseEntity.ok(friendshipService.getFriendshipsById(userID));
@@ -85,5 +87,14 @@ public class AppUserController {
         if(username!=null && !username.isEmpty())
             return ResponseEntity.ok().body(username);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+    @GetMapping(USER_PATH_FRIENDS+"/entities")
+    ResponseEntity getFriends(@CookieValue(name="JWT", required = false) String token){
+        Claims claims = jwtService.parseToken(token);
+        UUID userID = UUID.fromString(claims.getSubject());
+        List<AppUserPublicDTO> friends = appUserService.getFriends(userID);
+        if(friends.isEmpty())
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.ok().body(friends);
     }
 }

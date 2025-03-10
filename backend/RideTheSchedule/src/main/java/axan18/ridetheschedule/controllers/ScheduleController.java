@@ -3,6 +3,7 @@ package axan18.ridetheschedule.controllers;
 import axan18.ridetheschedule.entities.Schedule;
 import axan18.ridetheschedule.models.ScheduleDTO;
 import axan18.ridetheschedule.models.ScheduleTaskDTO;
+import axan18.ridetheschedule.models.SharedScheduleDTO;
 import axan18.ridetheschedule.repositories.ScheduleRepository;
 import axan18.ridetheschedule.services.JwtService;
 import axan18.ridetheschedule.services.ScheduleService;
@@ -30,7 +31,8 @@ public class ScheduleController {
     private final JwtService jwtService;
     public static final String SCHEDULE_PATH = "/schedules";
     public static final String SCHEDULE_PATH_DAY = SCHEDULE_PATH+"/{dateString}";
-
+    public static final String SHARED_SCHEDULE_PATH = SCHEDULE_PATH+"/shared";
+    
     @PostMapping(SCHEDULE_PATH)
     public ResponseEntity addScheduleTask(@CookieValue(name = "JWT") String token, @Validated @RequestBody ScheduleTaskDTO scheduleTaskDTO){
         Claims claims = jwtService.parseToken(token);
@@ -50,5 +52,12 @@ public class ScheduleController {
         }
         List<ScheduleTaskDTO> tasks = scheduleTaskService.getTasksForSchedule(opt.get().getId());
         return ResponseEntity.ok(tasks);
+    }
+    @PostMapping(SHARED_SCHEDULE_PATH)
+    public ResponseEntity addSharedSchedule(@CookieValue(name = "JWT") String token,){
+        Claims claims = jwtService.parseToken(token);
+        UUID userID = UUID.fromString(claims.getSubject());
+        SharedScheduleDTO.builder()
+                .scheduleId()
     }
 }

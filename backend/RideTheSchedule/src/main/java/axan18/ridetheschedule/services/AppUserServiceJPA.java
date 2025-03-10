@@ -17,6 +17,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -97,6 +98,11 @@ public class AppUserServiceJPA implements AppUserService {
     @Override
     public String getUsernameByID(UUID id) {
         return appUserRepository.getUsernameByID(id);
+    }
+
+    @Override
+    public List<AppUserPublicDTO> getFriends(UUID userId) {
+        return appUserMapper.toAppUserPublicDTOList(appUserRepository.getFriends(userId));
     }
 
 }

@@ -18,6 +18,6 @@ public interface ScheduleTaskMapper {
     @Mapping(source = "lastModified", target = "lastModified", qualifiedByName = "TimestampToLocalDateTime")
     ScheduleTaskDTO toScheduleTaskDTO(ScheduleTask scheduleTask);
 
-    List<ScheduleTaskDTO> toDTOList(List<ScheduleTask> scheduleTasks); // Dodana metoda mapowania listy
+    List<ScheduleTaskDTO> toDTOList(List<ScheduleTask> scheduleTasks);
 
 }
