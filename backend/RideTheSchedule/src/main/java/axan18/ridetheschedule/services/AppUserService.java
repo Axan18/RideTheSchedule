@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface AppUserService {
-    Page<AppUserPublicDTO> listUsers(Pageable pageable);
+    Page<AppUserPublicDTO> listUsersWithoutMe(UUID id, Pageable pageable);
     Page<AppUserDTO> getUserByNameLike(String name, Pageable pageable);
     Boolean deleteUser(UUID userID);
     Optional<AppUserDTO> createUser(String name, String password, String email);

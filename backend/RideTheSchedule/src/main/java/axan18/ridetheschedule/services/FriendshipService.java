@@ -14,5 +14,6 @@ public interface FriendshipService {
     Optional<Friendship> sendFriendshipRequest(UUID sender, UUID receiver);
     List<FriendshipDTO> getFriendshipsById(UUID id);
     Page<Friendship> getFriendshipsByIdAndStatus(UUID id, Friendship.Status status, int page, int size);
-
+    Boolean cancelFriendshipRequest(UUID sender, UUID receiver);
+    Boolean unfriend(UUID id1, UUID id2);
 }

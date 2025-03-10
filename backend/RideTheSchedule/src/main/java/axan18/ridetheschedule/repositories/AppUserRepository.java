@@ -30,4 +30,7 @@ public interface AppUserRepository extends JpaRepository<AppUser, UUID> {
 
     @Query("SELECT u.id from AppUser u where u.email= :email")
     UUID getIdByEmail(@Param("email") String email);
+
+    @Query("SELECT u from AppUser u where u.id!=:myId")
+    Page<AppUser> findAllWithoutMe(@Param("myId") UUID id, Pageable pageable);
 }

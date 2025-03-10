@@ -27,8 +27,8 @@ public class AppUserServiceJPA implements AppUserService {
     private final AppUserRepository appUserRepository;
     private final AppUserMapper appUserMapper;
     @Override
-    public Page<AppUserPublicDTO> listUsers(Pageable pageable) {
-        return appUserRepository.findAll(pageable).map(appUserMapper::toAppUserPublicDTO);
+    public Page<AppUserPublicDTO> listUsersWithoutMe(UUID id, Pageable pageable) {
+        return appUserRepository.findAllWithoutMe(id,pageable).map(appUserMapper::toAppUserPublicDTO);
     }
 
     @Override

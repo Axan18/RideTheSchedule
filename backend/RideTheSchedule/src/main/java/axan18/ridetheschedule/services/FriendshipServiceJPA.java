@@ -12,6 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -43,8 +45,13 @@ public class FriendshipServiceJPA implements FriendshipService {
             throw new IllegalStateException("Friendship status: "+existingFriendship.get().getStatus());
         }
 
-        friendshipRepository.establishFriendship(sender,receiver, Friendship.Status.PENDING);
-        return friendshipRepository.getFriendshipBetween(sender,receiver);
+        return Optional.of(friendshipRepository.save(Friendship.builder()
+                .lastModified(Timestamp.valueOf(LocalDateTime.now()))
+                .status(Friendship.Status.PENDING)
+                .id(new Friendship.FriendshipId(sender,receiver))
+                .user1(appUserRepository.findById(sender).get())
+                .user2(appUserRepository.findById(receiver).get())
+                .build()));
     }
 
     @Override
@@ -65,5 +72,14 @@ public class FriendshipServiceJPA implements FriendshipService {
 
         if (senderUser.isEmpty() || receiverUser.isEmpty()) throw new IllegalArgumentException("Both users must exist.");
         if (sender.equals(receiver)) throw new IllegalArgumentException("Ids cannot be the same");
+    }
+
+    @Override
+    public Boolean cancelFriendshipRequest(UUID sender, UUID receiver) {
+        return friendshipRepository.deleteFriendshipRequest(sender, receiver, Friendship.Status.PENDING) == 1;
+    }
+    @Override
+    public Boolean unfriend(UUID id1, UUID id2){
+        return friendshipRepository.unfriend(id1,id2, Friendship.Status.ACCEPTED)==1;
     }
 }

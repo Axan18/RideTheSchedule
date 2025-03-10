@@ -28,4 +28,14 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Friendsh
 
     @Query("SELECT f from Friendship f where f.id.id1 =:id1 and f.id.id2=:id2 or f.id.id1=:id2 and f.id.id2=:id1")
     Optional<Friendship> getFriendshipBetween(@Param("id1") UUID sender, @Param("id2") UUID receiver);
+
+    @Transactional
+    @Modifying
+    @Query("DELETE from Friendship f where f.id.id1 =:id1 and f.id.id2 = :id2 and f.status =:status")
+    int deleteFriendshipRequest(@Param("id1") UUID sender, @Param("id2") UUID receiver,  @Param("status") Friendship.Status status);
+
+    @Transactional
+    @Modifying
+    @Query("DELETE from Friendship f where f.id.id1 =:id1 and f.id.id2 = :id2 or f.id.id1=:id2 and f.id.id2=:id1 and f.status =:status")
+    int unfriend(@Param("id1") UUID sender, @Param("id2") UUID receiver,  @Param("status") Friendship.Status status);
 }
