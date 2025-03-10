@@ -26,27 +26,31 @@
         <div class = "collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active menu_element" aria-current="page" href="welcome.html">Home</a>
+              <a class="nav-link active menu_element" aria-current="page" href="homepage.html">Home</a>
             </li>
             <li class="nav-item">
               <a class="nav-link active menu_element" href="profile.html">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active menu_element" href="search.html?page=0">Users</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle menu_element" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Friends
               </a>
-              <ul class="dropdown-menu menu_element">
+              <ul class="dropdown-menu menu_element friendlist" >
+                <p style="color:black;">
+                  Feature will be added along with profile page
+                </p>
               </ul>
             </li>
             <li class="nav-item">
-              <a class="nav-link active menu_element" href="welcome.html">Logout</a>
+              <a class="nav-link active menu_element login" href="https://localhost:8443/oauth2/authorization/google">Login</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
-
-
 
     <div class = "row p-3">
       <div class = "col-12">
@@ -132,6 +136,7 @@
         </form>
         <div id="calendar"></div>
         <button class="btn btn-primary mt-4" id="openFormBtn">Add event</button>
+        <button class="btn btn-primary mt-4" id="shareBtn">Share your schedule</button>
 
         <!-- Wysuwający się formularz -->
         <div id="eventFormPanel" class="bg-secondary-subtle p-4">
@@ -157,6 +162,18 @@
             <button type="button" class="btn btn-secondary" id="closeFormBtn">Close</button>
           </form>
         </div>
+
+        <div id="sharePanel" class="bg-secondary-subtle p-4">
+          <h4>Share schedule</h4>
+          <form id="shareForm">
+            <label for="friendsToShare" class="form-label">Select friends to share your schedule with</label>
+            <select id="friendsToShare" multiple>
+            </select>
+            <button type="submit" class="btn btn-primary">Add</button>
+            <button type="button" class="btn btn-secondary" id="closeShareBtn">Close</button>
+          </form>
+        </div>
+
         <script>
           document.addEventListener('DOMContentLoaded', function () {
             const urlParams = new URLSearchParams(window.location.search);
@@ -193,23 +210,30 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
 </script>
 <script>
+  //sliding forms
   document.getElementById('openFormBtn').addEventListener('click', function() {
     document.getElementById('eventFormPanel').style.right = '0';
   });
-  // Zamknięcie formularza
   document.getElementById('closeFormBtn').addEventListener('click', function() {
     document.getElementById('eventFormPanel').style.right = '-300px';
   });
   document.getElementById('openTodoFormBtn').addEventListener('click', function() {
     document.getElementById('todoFormPanel').style.left = '0';
   });
-  // Zamknięcie formularza
   document.getElementById('closeTodoFormBtn').addEventListener('click', function() {
     document.getElementById('todoFormPanel').style.left = '-300px';
   });
+    document.getElementById('shareBtn').addEventListener('click', function() {
+        document.getElementById('sharePanel').style.right = '0';
+    });
+    document.getElementById('closeShareBtn').addEventListener('click', function() {
+        document.getElementById('sharePanel').style.right = '-300px';
+    });
 </script>
 <script src="js/day_viewCRUD.js">
 
 </script>
+<script src="js/login.js"></script>
+
 </body>
 </html>

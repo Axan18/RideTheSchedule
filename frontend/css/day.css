@@ -1,7 +1,7 @@
 .fc-list-event-time {
     display: none;
 }
-#eventFormPanel {
+#eventFormPanel, #sharePanel {
     position: fixed;
     top: 20%;
     right: -300px;

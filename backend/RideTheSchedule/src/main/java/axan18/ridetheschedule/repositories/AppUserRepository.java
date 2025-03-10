@@ -33,4 +33,7 @@ public interface AppUserRepository extends JpaRepository<AppUser, UUID> {
 
     @Query("SELECT u from AppUser u where u.id!=:myId")
     Page<AppUser> findAllWithoutMe(@Param("myId") UUID id, Pageable pageable);
+
+    @Query("SELECT u.username from AppUser u where u.id=:id")
+    String getUsernameByID(@Param("id") UUID id);
 }

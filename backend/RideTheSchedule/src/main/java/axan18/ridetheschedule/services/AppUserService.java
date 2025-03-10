@@ -16,4 +16,5 @@ public interface AppUserService {
     Optional<AppUserDTO> createUser(String name, String password, String email);
     void updateLastLogin(UUID userId);
     Page<AppUserPublicDTO> getUsersByName(String username, Pageable pageable);
+    String getUsernameByID(UUID id);
 }

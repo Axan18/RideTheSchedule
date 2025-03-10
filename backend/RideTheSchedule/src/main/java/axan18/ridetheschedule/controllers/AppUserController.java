@@ -76,4 +76,14 @@ public class AppUserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         return ResponseEntity.ok().build();
     }
+    @GetMapping(USER_PATH+"/get_name")
+    ResponseEntity getUsername(@CookieValue(name="JWT", required = false) String token){
+        if(token==null) return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        Claims claims = jwtService.parseToken(token);
+        UUID userID = UUID.fromString(claims.getSubject());
+        String username = appUserService.getUsernameByID(userID);
+        if(username!=null && !username.isEmpty())
+            return ResponseEntity.ok().body(username);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

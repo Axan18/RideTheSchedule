@@ -93,4 +93,10 @@ public class AppUserServiceJPA implements AppUserService {
         }
         return users.map(appUserMapper::toAppUserPublicDTO);
     }
+
+    @Override
+    public String getUsernameByID(UUID id) {
+        return appUserRepository.getUsernameByID(id);
+    }
+
 }

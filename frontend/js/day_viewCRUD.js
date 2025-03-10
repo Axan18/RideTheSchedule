@@ -58,21 +58,3 @@ document.addEventListener('DOMContentLoaded', async () => {
         alert('Failed to fetch tasks');
     }
 });
-/*
-public class ScheduleTaskDTO {
-    private UUID id;
-    @NotNull
-    @NotBlank
-    private String name;
-    @NotBlank
-    private String description;
-    @NotNull
-    private LocalDateTime createdAt;
-    @NotNull
-    private LocalDateTime lastModified;
-    @NotNull
-    private LocalDateTime startTime;
-    @NotNull
-    private LocalDateTime endTime;
-}
- */

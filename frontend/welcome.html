@@ -28,15 +28,21 @@
                         <li class="nav-item">
                             <a class="nav-link active menu_element" href="profile.html">Profile</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link active menu_element" href="search.html?page=0">Users</a>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle menu_element" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Friends
                             </a>
-                            <ul class="dropdown-menu menu_element">
+                            <ul class="dropdown-menu menu_element friendlist" >
+                                <p style="color:black;">
+                                    Feature will be added along with profile page
+                                </p>
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active menu_element" href="welcome.html">Logout</a>
+                            <a class="nav-link active menu_element login" href="https://localhost:8443/oauth2/authorization/google">Login</a>
                         </li>
                     </ul>
                 </div>
@@ -84,5 +90,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
 </script>
+<script src="js/login.js"></script>
 </body>
 </html>

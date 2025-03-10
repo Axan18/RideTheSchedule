@@ -25,20 +25,26 @@
         <div class = "collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active menu_element" aria-current="page" href="welcome.html">Home</a>
+              <a class="nav-link active menu_element" aria-current="page" href="homepage.html">Home</a>
             </li>
             <li class="nav-item">
               <a class="nav-link active menu_element" href="profile.html">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active menu_element" href="search.html?page=0">Users</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle menu_element" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Friends
               </a>
-              <ul class="dropdown-menu menu_element">
+              <ul class="dropdown-menu menu_element friendlist" >
+                <p style="color:black;">
+                  Feature will be added along with profile page
+                </p>
               </ul>
             </li>
             <li class="nav-item">
-              <a class="nav-link active menu_element" href="https://localhost:8443/oauth2/authorization/google">Login</a>
+              <a class="nav-link active menu_element login" href="https://localhost:8443/oauth2/authorization/google">Login</a>
             </li>
           </ul>
         </div>
@@ -74,5 +80,7 @@
 </script>
 <script src="js/friendshipCRUD.js">
 </script>
+<script src="js/login.js"></script>
+
 </body>
 </html>
