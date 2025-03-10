@@ -1,13 +1,12 @@
 package axan18.ridetheschedule.controllers;
 
 import axan18.ridetheschedule.entities.Schedule;
+import axan18.ridetheschedule.entities.SharedSchedule;
 import axan18.ridetheschedule.models.ScheduleDTO;
 import axan18.ridetheschedule.models.ScheduleTaskDTO;
 import axan18.ridetheschedule.models.SharedScheduleDTO;
 import axan18.ridetheschedule.repositories.ScheduleRepository;
-import axan18.ridetheschedule.services.JwtService;
-import axan18.ridetheschedule.services.ScheduleService;
-import axan18.ridetheschedule.services.ScheduleTaskService;
+import axan18.ridetheschedule.services.*;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,11 +27,13 @@ import java.util.stream.Collectors;
 public class ScheduleController {
     private final ScheduleTaskService scheduleTaskService;
     private final ScheduleService scheduleService;
+    private final SharedScheduleService sharedScheduleService;
     private final JwtService jwtService;
+
     public static final String SCHEDULE_PATH = "/schedules";
     public static final String SCHEDULE_PATH_DAY = SCHEDULE_PATH+"/{dateString}";
     public static final String SHARED_SCHEDULE_PATH = SCHEDULE_PATH+"/shared";
-    
+
     @PostMapping(SCHEDULE_PATH)
     public ResponseEntity addScheduleTask(@CookieValue(name = "JWT") String token, @Validated @RequestBody ScheduleTaskDTO scheduleTaskDTO){
         Claims claims = jwtService.parseToken(token);
@@ -53,11 +54,15 @@ public class ScheduleController {
         List<ScheduleTaskDTO> tasks = scheduleTaskService.getTasksForSchedule(opt.get().getId());
         return ResponseEntity.ok(tasks);
     }
-    @PostMapping(SHARED_SCHEDULE_PATH)
-    public ResponseEntity addSharedSchedule(@CookieValue(name = "JWT") String token,){
+    @PostMapping(SHARED_SCHEDULE_PATH+"/{dateString}")
+    public ResponseEntity addSharedSchedule(@CookieValue(name = "JWT") String token, @PathVariable("dateString") String dateString, @RequestParam String sharedWithId){
         Claims claims = jwtService.parseToken(token);
         UUID userID = UUID.fromString(claims.getSubject());
-        SharedScheduleDTO.builder()
-                .scheduleId()
+        SharedScheduleDTO ssDTO = SharedScheduleDTO.builder()// get handling necessary
+                .scheduleId(scheduleService.getScheduleForDate(userID,Date.valueOf(dateString)).get().getId())
+                .sharedWithId(UUID.fromString(sharedWithId))
+                .ownerId(userID)
+                .build();
+        return ResponseEntity.ok().body(sharedScheduleService.createSharedSchedule(ssDTO));
     }
 }

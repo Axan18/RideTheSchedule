@@ -16,3 +16,21 @@ document.addEventListener('DOMContentLoaded', async function() {
         friendsList.appendChild(friendElement);
     });
 });
+const shareForm = document.getElementById('shareForm');
+shareForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const response = await fetch('https://localhost:8443/schedules/shared/'+currentDate+'?sharedWithId='+document.getElementById('friendsToShare').value,
+        {
+            method: 'POST',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+    if (response.ok) {
+        alert('Schedule successfully shared');
+        window.location.href = 'dayview.html?date='+currentDate;
+    } else {
+        alert('Failed to share schedule');
+    }
+});

@@ -11,6 +11,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface SharedScheduleService {
-    SharedSchedule createSharedSchedule(SharedScheduleDTO sharedScheduleDTO);
+    SharedScheduleDTO createSharedSchedule(SharedScheduleDTO sharedScheduleDTO);
     List<AppUserDTO> getUsersSharingSchedulesWithUser(UUID userId, int month, int year);
 }

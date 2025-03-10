@@ -23,9 +23,9 @@ public class SharedScheduleServiceJPA implements SharedScheduleService {
     private final AppUserMapper appUserMapper;
 
     @Override
-    public SharedSchedule createSharedSchedule(SharedScheduleDTO sharedScheduleDTO) {
+    public SharedScheduleDTO createSharedSchedule(SharedScheduleDTO sharedScheduleDTO) {
         SharedSchedule sharedSchedule = sharedScheduleMapper.toSharedSchedule(sharedScheduleDTO);
-        return sharedScheduleRepository.save(sharedSchedule);
+        return sharedScheduleMapper.toSharedScheduleDTO(sharedScheduleRepository.save(sharedSchedule));
     }
 
     @Override
