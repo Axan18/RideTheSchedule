@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -16,7 +17,9 @@ import java.util.UUID;
 public interface SharedScheduleRepository extends JpaRepository<SharedSchedule, UUID> {
     @Query("SELECT DISTINCT ss.scheduleOwner FROM SharedSchedule ss " +
             "INNER JOIN ss.schedule s " +
-            "WHERE ss.sharedWith.id = :myID AND FUNCTION('MONTH', s.date) = :month AND FUNCTION('YEAR', s.date) = :year")
-    List<AppUser> findUsersWhoSharedSchedules(@Param("myID") UUID userID, @Param("month") int month, @Param("year") int year);
+            "WHERE ss.sharedWith.id = :myID " +
+            "AND s.date = :date")
+    List<AppUser> findUsersWhoSharedSchedules(@Param("myID") UUID userID, @Param("date") Date date);
+
 }
 

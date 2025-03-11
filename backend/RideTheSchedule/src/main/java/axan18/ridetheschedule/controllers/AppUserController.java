@@ -5,6 +5,7 @@ import axan18.ridetheschedule.models.AppUserPublicDTO;
 import axan18.ridetheschedule.services.AppUserService;
 import axan18.ridetheschedule.services.FriendshipService;
 import axan18.ridetheschedule.services.JwtService;
+import axan18.ridetheschedule.services.SharedScheduleService;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +26,7 @@ public class AppUserController {
     private final AppUserService appUserService;
     private final JwtService jwtService;
     private final FriendshipService friendshipService;
+    private final SharedScheduleService sharedScheduleService;
 
     public static final String USER_PATH = "/users";
     public static final String USER_PATH_FRIENDS = "/users/friends";
@@ -96,5 +98,15 @@ public class AppUserController {
         if(friends.isEmpty())
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         return ResponseEntity.ok().body(friends);
+    }
+
+    @GetMapping(USER_PATH_FRIENDS+"/sharers/{dateString}")
+    ResponseEntity getSharers(@CookieValue(name="JWT", required = false) String token, @PathVariable(name = "dateString") String date){
+        Claims claims = jwtService.parseToken(token);
+        UUID userID = UUID.fromString(claims.getSubject());
+        List<AppUserPublicDTO> shareres = sharedScheduleService.getUsersSharingSchedulesWithUser(userID,date);
+        if(shareres.isEmpty())
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.ok().body(shareres);
     }
 }

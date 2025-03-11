@@ -126,12 +126,11 @@
         </script>
       </div>
       <div class = "col-6">
-        <form>
-          <select name="users" id="users">
-            <option value="user1">My</option>
-            <option value="user2">User2</option>
-            <option value="user3">User3</option>
-            <option value="user4">User4</option>
+        <form id="scheduleChooser">
+          <label for="users">Whoose schedule do you want to add?
+          </label>
+          <select name="users" id="users" class="w-50">
+            <option value="">No one</option>
           </select>
         </form>
         <div id="calendar"></div>

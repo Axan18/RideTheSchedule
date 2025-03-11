@@ -34,3 +34,22 @@ shareForm.addEventListener('submit', async (e) => {
         alert('Failed to share schedule');
     }
 });
+const scheduleChooser = document.getElementById('scheduleChooser');
+document.addEventListener('DOMContentLoaded', async function() {
+    const response = await fetch('https://localhost:8443/users/friends/sharers/'+currentDate,
+        {
+            method: 'GET',
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+    const sharers = await response.json();
+    const scheduleSelect = document.querySelector('#users');
+    sharers.forEach(schedule => {
+        const scheduleElement = document.createElement('option');
+        scheduleElement.value = schedule.id;
+        scheduleElement.textContent = schedule.username;
+        scheduleSelect.appendChild(scheduleElement);
+    });
+});
