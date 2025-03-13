@@ -1,10 +1,8 @@
 package axan18.ridetheschedule.services;
 
-import axan18.ridetheschedule.entities.AppUser;
 import axan18.ridetheschedule.entities.Schedule;
 import axan18.ridetheschedule.models.ScheduleDTO;
 import org.springframework.data.domain.Page;
-
 import java.sql.Date;
 import java.util.Optional;
 import java.util.UUID;

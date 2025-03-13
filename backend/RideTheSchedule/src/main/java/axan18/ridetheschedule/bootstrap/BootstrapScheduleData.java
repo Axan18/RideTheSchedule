@@ -5,7 +5,6 @@ import axan18.ridetheschedule.entities.Schedule;
 import axan18.ridetheschedule.repositories.AppUserRepository;
 import axan18.ridetheschedule.repositories.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;

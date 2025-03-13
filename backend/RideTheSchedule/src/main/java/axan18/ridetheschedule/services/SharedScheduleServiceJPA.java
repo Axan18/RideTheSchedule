@@ -4,16 +4,12 @@ import axan18.ridetheschedule.entities.AppUser;
 import axan18.ridetheschedule.entities.SharedSchedule;
 import axan18.ridetheschedule.mappers.AppUserMapper;
 import axan18.ridetheschedule.mappers.SharedScheduleMapper;
-import axan18.ridetheschedule.models.AppUserDTO;
 import axan18.ridetheschedule.models.AppUserPublicDTO;
 import axan18.ridetheschedule.models.SharedScheduleDTO;
 import axan18.ridetheschedule.repositories.SharedScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.sql.Date;
-import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 

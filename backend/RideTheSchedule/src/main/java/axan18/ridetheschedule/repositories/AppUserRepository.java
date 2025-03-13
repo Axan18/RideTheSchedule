@@ -1,6 +1,6 @@
 package axan18.ridetheschedule.repositories;
+
 import axan18.ridetheschedule.entities.AppUser;
-import axan18.ridetheschedule.entities.Schedule;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

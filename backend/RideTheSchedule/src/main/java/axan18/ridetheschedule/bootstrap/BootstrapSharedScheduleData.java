@@ -6,7 +6,6 @@ import axan18.ridetheschedule.entities.SharedSchedule;
 import axan18.ridetheschedule.repositories.AppUserRepository;
 import axan18.ridetheschedule.repositories.ScheduleRepository;
 import axan18.ridetheschedule.repositories.SharedScheduleRepository;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;

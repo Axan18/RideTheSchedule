@@ -1,12 +1,9 @@
 package axan18.ridetheschedule.controllers;
 
-import axan18.ridetheschedule.entities.Schedule;
-import axan18.ridetheschedule.entities.SharedSchedule;
 import axan18.ridetheschedule.models.ScheduleDTO;
 import axan18.ridetheschedule.models.ScheduleTaskDTO;
 import axan18.ridetheschedule.models.SharedScheduleDTO;
 import axan18.ridetheschedule.repositories.AppUserRepository;
-import axan18.ridetheschedule.repositories.ScheduleRepository;
 import axan18.ridetheschedule.services.*;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +12,9 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import java.sql.Date;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 @RestController
 @RequiredArgsConstructor

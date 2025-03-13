@@ -1,8 +1,6 @@
 package axan18.ridetheschedule.services;
 
-import axan18.ridetheschedule.models.ScheduleDTO;
 import axan18.ridetheschedule.models.ScheduleTaskDTO;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

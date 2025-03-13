@@ -2,11 +2,8 @@ package axan18.ridetheschedule.repositories;
 
 import axan18.ridetheschedule.entities.AppUser;
 import axan18.ridetheschedule.entities.SharedSchedule;
-import axan18.ridetheschedule.models.SharedScheduleDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.sql.Date;

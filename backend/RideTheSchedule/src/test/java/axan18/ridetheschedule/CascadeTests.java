@@ -1,23 +1,14 @@
 package axan18.ridetheschedule;
 
-import axan18.ridetheschedule.bootstrap.BootstrapScheduleData;
 import axan18.ridetheschedule.entities.AppUser;
 import axan18.ridetheschedule.entities.Schedule;
 import axan18.ridetheschedule.repositories.AppUserRepository;
 import axan18.ridetheschedule.repositories.ScheduleRepository;
-import axan18.ridetheschedule.RideTheScheduleApplication;
-
-import axan18.ridetheschedule.services.AppUserServiceJPA;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Set;
-
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(classes = RideTheScheduleApplication.class)

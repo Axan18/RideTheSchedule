@@ -1,6 +1,5 @@
 package axan18.ridetheschedule.services;
 
-import axan18.ridetheschedule.entities.AppUser;
 import axan18.ridetheschedule.entities.Schedule;
 import axan18.ridetheschedule.entities.TodoTask;
 import axan18.ridetheschedule.mappers.TodoTaskMapper;
