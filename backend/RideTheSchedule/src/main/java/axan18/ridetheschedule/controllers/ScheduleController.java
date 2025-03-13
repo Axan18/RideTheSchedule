@@ -5,6 +5,7 @@ import axan18.ridetheschedule.entities.SharedSchedule;
 import axan18.ridetheschedule.models.ScheduleDTO;
 import axan18.ridetheschedule.models.ScheduleTaskDTO;
 import axan18.ridetheschedule.models.SharedScheduleDTO;
+import axan18.ridetheschedule.repositories.AppUserRepository;
 import axan18.ridetheschedule.repositories.ScheduleRepository;
 import axan18.ridetheschedule.services.*;
 import io.jsonwebtoken.Claims;
@@ -33,6 +34,7 @@ public class ScheduleController {
     public static final String SCHEDULE_PATH = "/schedules";
     public static final String SCHEDULE_PATH_DAY = SCHEDULE_PATH+"/{dateString}";
     public static final String SHARED_SCHEDULE_PATH = SCHEDULE_PATH+"/shared";
+    private final AppUserRepository appUserRepository;
 
     @PostMapping(SCHEDULE_PATH)
     public ResponseEntity addScheduleTask(@CookieValue(name = "JWT") String token, @Validated @RequestBody ScheduleTaskDTO scheduleTaskDTO){
@@ -64,5 +66,25 @@ public class ScheduleController {
                 .ownerId(userID)
                 .build();
         return ResponseEntity.ok().body(sharedScheduleService.createSharedSchedule(ssDTO));
+    }
+    @GetMapping(value = SHARED_SCHEDULE_PATH+ "/{dateString}")
+    public ResponseEntity getScheduleTasks(@CookieValue(name = "JWT") String token, @PathVariable("dateString") String dateString, @RequestParam String sharedWithId){
+        Claims claims = jwtService.parseToken(token);
+        UUID user1ID = UUID.fromString(claims.getSubject());
+        UUID user2ID = UUID.fromString(sharedWithId);
+        String user2name = appUserRepository.getUsernameByID(user2ID);
+        java.sql.Date date = Date.valueOf(dateString);
+        Optional<ScheduleDTO> schedules1 = scheduleService.getScheduleForDate(user1ID,date);
+        Optional<ScheduleDTO> schedules2 = scheduleService.getScheduleForDate(user2ID,date);
+        if(schedules1.isEmpty() && schedules2.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        List<ScheduleTaskDTO> tasks1 = scheduleTaskService.getTasksForSchedule(schedules1.get().getId());
+        List<ScheduleTaskDTO> tasks2 = scheduleTaskService.getTasksForSchedule(schedules2.get().getId());
+        tasks2.forEach(task ->{
+            task.setName(user2name+"-"+task.getName());
+        });
+        tasks1.addAll(tasks2);
+        return ResponseEntity.ok(tasks1);
     }
 }
