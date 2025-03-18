@@ -9,7 +9,22 @@ The goal of the app is to show (and train) my backend development skills, especi
 * [Technologies](#technologies)
 * [Setup](#setup)
 * [Future updates](#future-updates)
-  
+
+## How it looks like?
+#### Welcoming screen
+![obraz](https://github.com/user-attachments/assets/ba9c1751-c777-4b12-aacc-9d59e9e0a92a)
+
+#### Home screen
+![obraz](https://github.com/user-attachments/assets/c242a379-a4f9-41a5-8eb6-5baf7134a0be)
+
+#### Empty schedule & forms
+![obraz](https://github.com/user-attachments/assets/bbc0bca9-73e7-4be6-92b1-fa645cd259c5)
+
+#### Shared schedule view
+![obraz](https://github.com/user-attachments/assets/bbf8a9e8-643b-4807-85ae-73ec65c572a6)
+
+
+
 ## Technologies
 * Backend
   * Java
