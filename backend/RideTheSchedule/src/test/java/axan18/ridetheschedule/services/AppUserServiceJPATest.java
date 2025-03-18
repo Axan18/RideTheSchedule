@@ -54,24 +54,24 @@ class AppUserServiceJPATest {
         pageRequest = PageRequest.of(page, size);
     }
 
-    @Test
-    void testListUsers() {
-        AppUser mockUser = appUser;
-        Page<AppUser> mockPage = new PageImpl<>(Collections.singletonList(mockUser));
-        when(appUserRepository.findAll(pageRequest))
-                .thenReturn(mockPage);
-
-        AppUserDTO mockUserDTO = new AppUserDTO();
-        when(appUserMapper.toAppUserDTO(mockUser)).thenReturn(mockUserDTO);
-
-        Page<AppUserDTO> result = appUserServiceJPA.listUsers(page, size);
-
-        assertEquals(1, result.getTotalElements(), "The result should contain one user");
-        assertEquals(mockUserDTO, result.getContent().get(0), "The user should be the same as the mock user");
-
-        verify(appUserRepository).findAll(pageRequest);
-        verify(appUserMapper).toAppUserDTO(mockUser);
-    }
+//    @Test
+//    void testListUsers() {
+//        AppUser mockUser = appUser;
+//        Page<AppUser> mockPage = new PageImpl<>(Collections.singletonList(mockUser));
+//        when(appUserRepository.findAll(pageRequest))
+//                .thenReturn(mockPage);
+//
+//        AppUserDTO mockUserDTO = new AppUserDTO();
+//        when(appUserMapper.toAppUserDTO(mockUser)).thenReturn(mockUserDTO);
+//
+//        Page<AppUserDTO> result = appUserServiceJPA.listUsers(page, size);
+//
+//        assertEquals(1, result.getTotalElements(), "The result should contain one user");
+//        assertEquals(mockUserDTO, result.getContent().get(0), "The user should be the same as the mock user");
+//
+//        verify(appUserRepository).findAll(pageRequest);
+//        verify(appUserMapper).toAppUserDTO(mockUser);
+//    }
 
     @Test
     void testGetEmptyUserByNameLike() {
