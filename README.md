@@ -7,9 +7,27 @@ The goal of the app is to show (and train) my backend development skills, especi
 
 ## Table of contents
 * [Technologies](#technologies)
+* [How it looks like?](#how-it-looks-like)
 * [Setup](#setup)
 * [Future updates](#future-updates)
 
+## Technologies
+* Backend
+  * Java
+  * SpringBoot
+  * Hibernate
+  * PostgreSQL
+  * JUnit
+  * Mockito
+  * Maven
+  * Lombok
+* Frontend
+  * HTML
+  * CSS
+  * JavaScript
+  * [BootStrap](https://github.com/twbs/bootstrap)
+  * [FullCalendar](https://github.com/fullcalendar/fullcalendar)
+ 
 ## How it looks like?
 #### Welcoming screen
 ![obraz](https://github.com/user-attachments/assets/ba9c1751-c777-4b12-aacc-9d59e9e0a92a)
@@ -23,23 +41,6 @@ The goal of the app is to show (and train) my backend development skills, especi
 #### Shared schedule view
 ![obraz](https://github.com/user-attachments/assets/bbf8a9e8-643b-4807-85ae-73ec65c572a6)
 
-
-
-## Technologies
-* Backend
-  * Java
-  * SpringBoot
-  * Hibernate
-  * PostgreSQL
-  * JUnit
-  * Mockito
-  * Maven
-* Frontend
-  * HTML
-  * CSS
-  * JavaScript
-  * [BootStrap](https://github.com/twbs/bootstrap)
-  * [FullCalendar](https://github.com/fullcalendar/fullcalendar) 
 
 ## Setup
 ### Frontend 
